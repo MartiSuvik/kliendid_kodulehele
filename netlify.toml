@@ -1,0 +1,11 @@
+# Netlify build configuration.
+# The repo does NOT commit dist/ (see .gitignore), so Netlify must build the
+# Vite app and publish the generated dist/ folder. Without this, Netlify serves
+# the raw source index.html (which points at /src/main.tsx) and the site is blank.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 6 requires Node 18+. Pin a current LTS for reproducible builds.
+  NODE_VERSION = "20"
