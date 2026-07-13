@@ -1,0 +1,4 @@
+/* Fonts are now loaded via a single <link rel="stylesheet"> in index.html
+   (Poppins + Cormorant Garamond + Inter, &display=swap). Loading them there in
+   parallel avoids the render-blocking CSS @import that used to live here. This
+   file is intentionally left empty and is no longer imported. */

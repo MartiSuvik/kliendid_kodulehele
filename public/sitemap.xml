@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://scalingwebs.com/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Portfolio -->
+  <url>
+    <loc>https://scalingwebs.com/portfolio</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/portfolio" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/portfolio" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/portfolio" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/portfolio</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/portfolio" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/portfolio" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/portfolio" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://scalingwebs.com/blog</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/blog" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/blog</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/blog" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Service: Google SEO -->
+  <url>
+    <loc>https://scalingwebs.com/teenused/google-seo</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/google-seo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/google-seo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/google-seo" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/teenused/google-seo</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/google-seo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/google-seo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/google-seo" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Service: Web Development -->
+  <url>
+    <loc>https://scalingwebs.com/teenused/kodulehe-arendus</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/kodulehe-arendus" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/kodulehe-arendus" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/kodulehe-arendus" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/teenused/kodulehe-arendus</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/kodulehe-arendus" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/kodulehe-arendus" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/kodulehe-arendus" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Landing: Kodulehe tegemine (Google Ads) -->
+  <url>
+    <loc>https://scalingwebs.com/kodulehe-tegemine-seo</loc>
+    <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Service: AI Support -->
+  <url>
+    <loc>https://scalingwebs.com/teenused/ai-tugi</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/ai-tugi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/ai-tugi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/ai-tugi" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/teenused/ai-tugi</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/ai-tugi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/ai-tugi" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/ai-tugi" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Service: Social Media -->
+  <url>
+    <loc>https://scalingwebs.com/teenused/sotsiaalmeedia</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/sotsiaalmeedia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/sotsiaalmeedia" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/sotsiaalmeedia" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/teenused/sotsiaalmeedia</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/teenused/sotsiaalmeedia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/teenused/sotsiaalmeedia" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/teenused/sotsiaalmeedia" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Consultation -->
+  <url>
+    <loc>https://scalingwebs.com/consultation</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/consultation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/consultation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/consultation" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/consultation</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/consultation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/consultation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/consultation" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Audit -->
+  <url>
+    <loc>https://scalingwebs.com/audit</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/audit" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/audit" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://scalingwebs.com/en/audit</loc>
+    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/audit" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/audit" />
+    <lastmod>2026-05-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

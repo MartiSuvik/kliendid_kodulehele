@@ -1,0 +1,22 @@
+# Netlify / Cloudflare Pages headers (same mechanism as _redirects).
+# Vite copies this file from public/ into dist/ on build.
+
+# Content-hashed build assets never change → cache for a year, immutable.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts, if any are self-hosted under these, also cache aggressively.
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# Security headers for every response.
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  # Content-Security-Policy is intentionally NOT enforced here: the site relies on
+  # inline scripts (Consent Mode, Silktide loader, Clarity) and many third-party
+  # origins, and the ElevenLabs voice widget needs microphone access. Enable only
+  # after testing — start in report-only mode, e.g.:
+  # Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://t.contentsquare.net https://www.clarity.ms https://cdn.jsdelivr.net https://unpkg.com; img-src 'self' data: https:; frame-src https://www.youtube.com https://player.cloudinary.com https://calendar.google.com; connect-src 'self' https:;

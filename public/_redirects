@@ -1,0 +1,9 @@
+# Geo-based redirect: non-Estonian visitors landing on root → /en/
+# 302 so search engines index both versions independently
+/ /en/ 302 Country!=ee
+
+# SPA catch-all for /en/* routes
+/en/* /index.html 200
+
+# Default SPA catch-all (Estonian)
+/* /index.html 200

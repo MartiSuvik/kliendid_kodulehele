@@ -1,0 +1,4 @@
+/* Web fonts are loaded via a single <link> in index.html (parallel, non-render-
+   blocking) instead of a CSS @import, so fonts.css is no longer imported here. */
+@import './tailwind.css';
+@import './theme.css';
