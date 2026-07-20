@@ -5,6 +5,7 @@ import brandLogo from "../../assets/logo.svg";
 import * as m from "../../paraglide/messages.js";
 import { getLocale, setLocale, baseLocale } from "../../paraglide/runtime.js";
 import { localizeHref } from "./hooks/useLocale";
+import { ContactLinksInline, ContactLinksStacked } from "./ContactLinks";
 
 function getNavItems() {
   return [
@@ -133,7 +134,9 @@ export function Navigation() {
           </button>
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
+          {/* Contact pair only from lg up — at md the nav row is already full. */}
+          <ContactLinksInline source="header" className="hidden lg:flex" />
           <button
             onClick={switchLocale}
             className="font-['Inter'] font-medium text-black hover:text-[#1977f2] transition-colors cursor-pointer px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300"
@@ -225,6 +228,12 @@ export function Navigation() {
               >
                 {m.lang_switch()}
               </button>
+
+              <ContactLinksStacked
+                source="header_mobile"
+                tone="light"
+                className="pt-4 mt-1 border-t border-gray-100"
+              />
             </div>
           </motion.div>
         )}

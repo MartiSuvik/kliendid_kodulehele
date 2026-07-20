@@ -19,13 +19,21 @@
       gtag('set', 'url_passthrough', true);
     </script>
 
-    <!-- Google tag (gtag.js) — intentionally eager so Ads conversion tracking is
-         available from the start (per requirement). -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18138771439"></script>
+    <!-- Meta Pixel Code — eager by design, mirroring the previous Google Ads tag. -->
     <script>
-      gtag('js', new Date());
-      gtag('config', 'AW-18138771439');
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1349791620611241');
+    fbq('track', 'PageView');
     </script>
+    <!-- End Meta Pixel Code — the <noscript> fallback pixel lives at the top of
+         <body>, since <img> is not valid inside <noscript> in <head>. -->
 
     <!-- Silktide cookie consent manager — CSS + brand overrides load eagerly (the
          stylesheet is small), so the banner is always styled correctly. Only the
@@ -98,6 +106,11 @@
 
 </head>
   <body class="bg-background-light text-gray-900 antialiased selection:bg-primary/20 selection:text-primary">
+    <!-- Meta Pixel <noscript> fallback (paired with the loader in <head>) -->
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1349791620611241&amp;ev=PageView&amp;noscript=1"
+    alt="" /></noscript>
+
     <!-- Rakenduse juurelement -->
     <!-- Visible to crawlers: hidden visually but present in HTML as primary H1 for SEO crawlers -->
     <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Parim SEO/AI SEO Turundusagentuur Tallinn</h1>
@@ -125,7 +138,7 @@
 
   <!-- Deferred third-party loader — ContentSquare + Silktide consent manager load
        on the first browser-idle window or the first user interaction, whichever
-       comes first, so they stay off the critical render path. gtag.js and
+       comes first, so they stay off the critical render path. The Meta Pixel and
        Microsoft Clarity remain eager (in <head>) by design. -->
   <script>
   (function () {

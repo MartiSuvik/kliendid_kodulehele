@@ -5,6 +5,7 @@ import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import * as m from "../paraglide/messages.js";
 import { localizeHref } from "./components/hooks/useLocale";
+import { trackLead } from "../lib/analytics";
 
 const CONTACT_WEBHOOK_URL = "https://hook.eu1.make.com/vau19fpxdf9oh3wogukdub9arbvg3mgq";
 
@@ -105,6 +106,7 @@ export default function Audit() {
 
       event.currentTarget.reset();
       setIsSubmitted(true);
+      trackLead("audit_form");
       fireConfetti();
     } catch {
       setSubmitError(m.contact_error());

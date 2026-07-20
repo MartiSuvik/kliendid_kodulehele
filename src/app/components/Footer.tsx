@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { useInView, useMagnetic } from "./hooks/useAnimations";
 import brandLogo from "../../assets/logo.svg";
 import * as m from "../../paraglide/messages.js";
+import { ContactLinksStacked } from "./ContactLinks";
 
 export function Footer() {
   const { ref, inView } = useInView(0.15);
@@ -24,6 +25,21 @@ export function Footer() {
             <h3 className="font-['Poppins'] font-semibold text-white max-w-[300px]" style={{ fontSize: '24px', lineHeight: '1.3' }}>
               {m.footer_tagline()}
             </h3>
+          </motion.div>
+
+          {/* Contact — fills the right half of the existing justify-between row */}
+          <motion.div
+            initial={{ opacity: 0, y: 15, filter: "blur(8px)" }}
+            animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <p
+              className="font-['Poppins'] uppercase tracking-[0.14em] text-white/40 mb-3"
+              style={{ fontSize: '11px' }}
+            >
+              {m.footer_contact_label()}
+            </p>
+            <ContactLinksStacked source="footer" />
           </motion.div>
         </div>
 

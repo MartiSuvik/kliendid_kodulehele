@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone, Mail } from "lucide-react";
 import brandLogo from "../assets/logo.svg";
 import { localizeHref } from "./components/hooks/useLocale";
+import { trackContact } from "../lib/analytics";
+import {
+  CONTACT_EMAIL,
+  CONTACT_EMAIL_HREF,
+  CONTACT_PHONE_DISPLAY,
+  CONTACT_PHONE_HREF,
+} from "./data/contact";
 
 const bannerVideo = new URL("../assets/banner.webm", import.meta.url).href;
 
@@ -89,6 +96,27 @@ function CompactFooter() {
       <div className="grid grid-cols-2 gap-3 font-['Poppins']" style={{ fontSize: "13px", lineHeight: "1.3" }}>
         <a href={localizeHref("/")} className="text-white/90 no-underline">Avaleht</a>
         <a href={localizeHref("/contact")} className="text-white/90 no-underline">Kontakt</a>
+      </div>
+
+      <div className="mt-5 pt-5 border-t border-white/20 flex flex-col gap-2 font-['Poppins']">
+        <a
+          href={CONTACT_PHONE_HREF}
+          onClick={() => trackContact("phone", "consultation_footer")}
+          className="text-white no-underline font-semibold inline-flex items-center gap-2 transition-opacity duration-200 hover:opacity-80"
+          style={{ fontSize: "17px", lineHeight: "1.2" }}
+        >
+          <Phone size={15} aria-hidden="true" />
+          {CONTACT_PHONE_DISPLAY}
+        </a>
+        <a
+          href={CONTACT_EMAIL_HREF}
+          onClick={() => trackContact("email", "consultation_footer")}
+          className="text-white/80 no-underline inline-flex items-center gap-2 transition-opacity duration-200 hover:opacity-100"
+          style={{ fontSize: "13px", lineHeight: "1.3" }}
+        >
+          <Mail size={14} aria-hidden="true" />
+          {CONTACT_EMAIL}
+        </a>
       </div>
     </footer>
   );

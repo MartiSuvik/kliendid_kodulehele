@@ -4,6 +4,8 @@ import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import brandLogo from "../assets/logo.svg";
+import { ContactLinksInline } from "./components/ContactLinks";
+import { trackLead } from "../lib/analytics";
 import { ReviewsCarousel } from "./components/ReviewsCarousel";
 import { cld } from "../lib/cloudinary";
 
@@ -12,8 +14,6 @@ import { cld } from "../lib/cloudinary";
 /* -------------------------------------------------------------------------- */
 
 const CONTACT_WEBHOOK_URL = "https://hook.eu1.make.com/vau19fpxdf9oh3wogukdub9arbvg3mgq";
-/** Google Ads conversion action "Submit lead form" (Website). */
-const ADS_CONVERSION_SEND_TO = "AW-18138771439/voOCCPzcpMccEO_fnslD";
 const CANONICAL = "https://kliendidkodulehele.ee/teenused/google-seo";
 
 const ink = "#0b1220";
@@ -38,15 +38,6 @@ function track(event: string, detail?: Record<string, unknown>) {
   if (typeof w.gtag === "function") w.gtag("event", event, detail || {});
 }
 
-/** Fire the Google Ads "Submit lead form" conversion (Consent Mode gates the data). */
-function reportAdsConversion() {
-  if (typeof window === "undefined") return;
-  const w = window as unknown as { gtag?: (...args: unknown[]) => void };
-  if (typeof w.gtag === "function") {
-    w.gtag("event", "conversion", { send_to: ADS_CONVERSION_SEND_TO });
-  }
-}
-
 function goToSection(id: string) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -56,17 +47,6 @@ function goToSection(id: string) {
 function scrollToForm(source: string) {
   track("sample_cta_click", { source });
   goToSection("naidis");
-}
-
-function reportLeadFormConversion() {
-  if (typeof window === "undefined") return;
-  const w = window as Window & {
-    gtag_report_conversion?: (url?: string) => boolean;
-  };
-
-  if (typeof w.gtag_report_conversion === "function") {
-    w.gtag_report_conversion();
-  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -208,7 +188,8 @@ function MinimalHeader() {
             Kliendid Kodulehele
           </span>
         </a>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <ContactLinksInline source="service_header" className="hidden md:flex" />
           <button
             type="button"
             data-event="sample_cta_click"
@@ -614,7 +595,6 @@ export default function GoogleSeo() {
     if (isSubmitting) return;
     setIsSubmitting(true);
     setSubmitError(null);
-    reportLeadFormConversion();
 
     const formData = new FormData(event.currentTarget);
     const payload = {
@@ -657,7 +637,7 @@ export default function GoogleSeo() {
       event.currentTarget.reset();
       setIsSubmitted(true);
       track("sample_form_submit", { value: 1 });
-      reportAdsConversion();
+      trackLead("google_seo");
       fireConfetti();
     } catch {
       setSubmitError(
@@ -751,20 +731,6 @@ export default function GoogleSeo() {
               : "Parem nähtavus Google'is, rohkem orgaanilisi päringuid. Tasuta SEO-analüüs enne otsust."
           }
         />
-        <script>
-          {`function gtag_report_conversion(url) {
-  var callback = function () {
-    if (typeof(url) != 'undefined') {
-      window.location = url;
-    }
-  };
-  gtag('event', 'conversion', {
-      'send_to': 'AW-18138771439/voOCCPzcpMccEO_fnslD',
-      'event_callback': callback
-  });
-  return false;
-}`}
-        </script>
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 

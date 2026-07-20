@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import { getPlanBySlug, type PlanSlug } from "./data/plans";
+import { trackLead } from "../lib/analytics";
 import * as m from "../paraglide/messages.js";
 import { localizeHref } from "./components/hooks/useLocale";
 
@@ -112,6 +113,7 @@ export default function Contact({ packageSlug }: ContactProps) {
 
       event.currentTarget.reset();
       setIsSubmitted(true);
+      trackLead("contact_form", { packageSlug: plan.slug });
       fireConfetti();
     } catch {
       setSubmitError(m.contact_error());
