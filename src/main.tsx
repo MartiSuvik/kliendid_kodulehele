@@ -26,8 +26,8 @@ const path = strippedPath.toLowerCase();
 
 const isPortfolioPage = path === "/portfolio" || path === "/portfolio/";
 const isAuditPage = path === "/audit" || path === "/audit/";
-const isContactPage = path === "/contact" || path === "/contact/" || path.startsWith("/contact/");
-const isConsultationPage = path === "/konsultatsioon" || path === "/konsultatsioon/";
+// /contact and /konsultatsioon were retired in favour of /audit; Netlify 301s
+// them at the edge (see public/_redirects), so they never reach this router.
 // Google Ads landing page. The legacy /teenused/muugikonversioon route now
 // resolves to this page as well, so it must be checked before isServicesPage.
 const isKoduleheSeoPage =
@@ -42,7 +42,6 @@ const isKoduleheArendusPage = path === "/teenused/kodulehe-arendus" || path === 
 const isAiTugiPage = path === "/teenused/ai-tugi" || path === "/teenused/ai-tugi/";
 const isSotsiaalmeediaPage = path === "/teenused/sotsiaalmeedia" || path === "/teenused/sotsiaalmeedia/";
 const isServicesPage = path.startsWith("/teenused/");
-const contactSlug = isContactPage ? path.replace(/^\/contact\/?/, "").replace(/\/$/, "") : undefined;
 const elevenLabsAgentId = "agent_9501kn042dwrfkxrpwa28qfc2bv6";
 
 // Build locale prefix for internal links
@@ -98,30 +97,24 @@ const loadPage: () => Promise<{ default: ComponentType<any> }> =
     ? () => import("./app/Portfolio.tsx")
     : isAuditPage
       ? () => import("./app/Audit.tsx")
-      : isContactPage
-        ? () => import("./app/Contact.tsx")
-        : isConsultationPage
-          ? () => import("./app/Consultation.tsx")
-          : isKoduleheSeoPage
-            ? () => import("./app/KoduleheSeo.tsx")
-            : isGoogleSeoPage
-              ? () => import("./app/GoogleSeo.tsx")
-              : isKoduleheArendusPage
-                ? () => import("./app/KoduleheArendus.tsx")
-                : isAiTugiPage
-                  ? () => import("./app/AiTugi.tsx")
-                  : isSotsiaalmeediaPage
-                    ? () => import("./app/Sotsiaalmeedia.tsx")
-                    : isServicesPage
-                      ? () => import("./app/Services.tsx")
-                      : () => import("./app/App.tsx");
-
-const pageProps: Record<string, unknown> = isContactPage ? { packageSlug: contactSlug } : {};
+      : isKoduleheSeoPage
+        ? () => import("./app/KoduleheSeo.tsx")
+        : isGoogleSeoPage
+          ? () => import("./app/GoogleSeo.tsx")
+          : isKoduleheArendusPage
+            ? () => import("./app/KoduleheArendus.tsx")
+            : isAiTugiPage
+              ? () => import("./app/AiTugi.tsx")
+              : isSotsiaalmeediaPage
+                ? () => import("./app/Sotsiaalmeedia.tsx")
+                : isServicesPage
+                  ? () => import("./app/Services.tsx")
+                  : () => import("./app/App.tsx");
 
 loadPage().then(({ default: Page }) => {
   createRoot(document.getElementById("root")!).render(
     <HelmetProvider>
-      <Page {...pageProps} />
+      <Page />
     </HelmetProvider>,
   );
 });

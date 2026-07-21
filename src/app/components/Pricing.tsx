@@ -192,7 +192,7 @@ export function Pricing() {
                 ))}
               </ul>
 
-              <MagneticCTA label={plan.cta} href={localizeHref(`/contact/${plan.slug}`)} />
+              <MagneticCTA label={plan.cta} href={localizeHref("/audit")} />
             </motion.div>
           ))}
         </div>

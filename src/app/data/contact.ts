@@ -1,7 +1,7 @@
 /**
  * Single source of truth for the public contact details.
  *
- * These appear in the header, footer and consultation page, and are also used
+ * These appear in the site header and footer, and are also used
  * as Meta Pixel `Contact` conversion sources — keep the href/display pair in
  * sync here rather than hardcoding the number anywhere else.
  */

@@ -257,7 +257,7 @@ function ServicePageContent({ service }: ServicePageProps) {
                 {isEstonian ? "Alusta nüüd" : "Get Started"}
               </motion.a>
               <motion.a
-                href={isEstonian ? "/konsultatsioon" : "/en/konsultatsioon"}
+                href={isEstonian ? "/audit" : "/en/audit"}
                 whileHover={{ scale: 1.05 }}
                 className="border-2 border-black text-black font-['Inter'] font-medium px-8 py-3 rounded-full no-underline"
                 style={{ fontSize: "14px" }}
@@ -319,7 +319,7 @@ function ServicePageContent({ service }: ServicePageProps) {
             {isEstonian ? "Broneeri tasuta konsultatsioon ja uurime, kuidas see teenus aitab teie äril." : "Schedule a free consultation and let's discuss how this service can help your business."}
           </p>
           <motion.a
-            href={isEstonian ? "/konsultatsioon" : "/en/konsultatsioon"}
+            href={isEstonian ? "/audit" : "/en/audit"}
             whileHover={{ scale: 1.05 }}
             className="inline-block bg-white text-black font-['Inter'] font-medium px-8 py-3 rounded-full no-underline"
             style={{ fontSize: "14px" }}

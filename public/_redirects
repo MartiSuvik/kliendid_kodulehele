@@ -2,6 +2,16 @@
 # 302 so search engines index both versions independently
 / /en/ 302 Country!=ee
 
+# Removed pages → /audit (the single lead-capture form). 301 so any bookmarks
+# and indexed links forward and pass ranking signal. These MUST precede the SPA
+# catch-alls below, otherwise /en/* and /* would swallow them first.
+/contact             /audit      301
+/contact/*           /audit      301
+/konsultatsioon      /audit      301
+/en/contact          /en/audit   301
+/en/contact/*        /en/audit   301
+/en/konsultatsioon   /en/audit   301
+
 # SPA catch-all for /en/* routes
 /en/* /index.html 200
 

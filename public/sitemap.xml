@@ -150,25 +150,6 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Consultation -->
-  <url>
-    <loc>https://scalingwebs.com/consultation</loc>
-    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/consultation" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/consultation" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/consultation" />
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://scalingwebs.com/en/consultation</loc>
-    <xhtml:link rel="alternate" hreflang="et" href="https://scalingwebs.com/consultation" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://scalingwebs.com/en/consultation" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://scalingwebs.com/consultation" />
-    <lastmod>2026-05-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
 
   <!-- Audit -->
   <url>
