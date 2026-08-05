@@ -9,7 +9,6 @@ import { ContactLinksInline, ContactLinksStacked } from "./ContactLinks";
 
 function getNavItems() {
   return [
-    { label: m.nav_benefits(), href: localizeHref("/#miks?") },
     /* { label: m.nav_process(), href: "#protsess" }, */
    /* { label: m.nav_guarantee(), href: "#garantii" }, */
     { label: m.nav_faq(), href: localizeHref("/#kkk") },

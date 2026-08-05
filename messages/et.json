@@ -40,9 +40,10 @@
   "about_badge": "Meist",
   "about_heading_1": "Ehitatud kogemuse pealt.",
   "about_heading_italic": "Suunatud väike-ettevõtjatele.",
-  "about_p1": "Me oleme Romet ja Marti. 7 aastat tagasi alustasime vabakutselistena, seejärel ehitasime kumbki üles oma edukad agentuurid. Täna oleme Kliendid Kodulehele.",
-  "about_p2": "Me nägime, et enamik ettevõtteid kaotab raha, sest nende digitaalne fassaad on segane ja protsessid manuaalsed. Otsustasime seda muuta.",
-  "about_p3": "Meie missioon on sirgejooneline: skaleerida sinu äri päringuid ja müüki. Me teeme seda kodulehe konversioonide optimeerimise, halastamatu SEO, AI sotsiaalmeedia ja automatsioonidega. Las tulemused räägivad enda eest.",
+  "about_story": "Me oleme Romet ja Marti. Nägime, kuidas liiga paljud Eesti ettevõtted kaotavad iga kuu kliente segase kodulehe ja käsitsi tehtavate protsesside tõttu ning otsustasime seda muuta. Täna oleme aidanud juba 40+ ettevõttel üle Eesti oma päringuid ja müüki tõsta.",
+  "about_stat_number": "40+",
+  "about_stat_label": "ettevõtet üle Eesti usaldab meid juba",
+  "about_role_cofounder": "Kaasasutaja",
 
   "benefits_badge": "Miks?",
   "benefits_heading_italic": "Aga",

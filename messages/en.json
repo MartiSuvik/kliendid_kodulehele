@@ -42,9 +42,10 @@
   "about_badge": "About Us",
   "about_heading_1": "Built from real experience.",
   "about_heading_italic": "Optimized for profit.",
-  "about_p1": "We are Romet and Marti. 7 years ago, we started as freelancers, then each built successful agencies. Today, we are Kliendid Kodulehele.",
-  "about_p2": "We saw that most companies lose money because their digital presence is confusing and their processes are manual. We decided to change that.",
-  "about_p3": "Our mission is straightforward: scale your business inquiries and sales. We do it through website conversion optimization, relentless SEO, AI social media, and automation. Let the results speak for themselves.",
+  "about_story": "We're Romet and Marti. We watched too many Estonian businesses lose customers every month to a confusing website and manual processes — so we decided to change that. Today we've already helped 40+ businesses across Estonia scale their inquiries and sales.",
+  "about_stat_number": "40+",
+  "about_stat_label": "businesses across Estonia already trust us",
+  "about_role_cofounder": "Co-founder",
 
   "benefits_badge": "Benefits",
   "benefits_heading_italic": "But",

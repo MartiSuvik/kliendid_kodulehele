@@ -5,6 +5,31 @@ import { cld, cldSrcSet } from "../../lib/cloudinary";
 import * as m from "../../paraglide/messages.js";
 
 const YT_VIDEO_ID = "0X7_ijQXQCA";
+const HERO_VIDEO_PUBLIC_ID = "kliendidkodulehele_hero_video";
+const HERO_VIDEO_PREVIEW_SRC = `https://res.cloudinary.com/dl4bzhitw/video/upload/f_auto,q_auto:low,w_480,so_0,eo_4/${HERO_VIDEO_PUBLIC_ID}.mp4`;
+const HERO_VIDEO_PLAYER_SRC =
+  "https://player.cloudinary.com/embed/?cloud_name=dl4bzhitw&public_id=Kui_sa_oled_Eesti_ettevo%CC%83tja_siis_on_95_to%CC%83ena%CC%88osus_fudzdu&autoplay=true";
+
+/** Centered play glyph (+ optional caption) shared by both click-to-play video variants. */
+function PlayOverlay({ label }: { label?: string }) {
+  return (
+    <span className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+      <span className="flex items-center justify-center w-16 h-16 rounded-full bg-white/90 group-hover:bg-white group-hover:scale-110 transition-all shadow-lg">
+        <svg className="w-14 h-14 text-[#1977f2] ml-1" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </span>
+      {label && (
+        <span
+          className="rounded-full bg-black/55 px-3.5 py-1.5 font-['Inter'] font-medium text-white backdrop-blur-sm"
+          style={{ fontSize: "13.5px" }}
+        >
+          {label}
+        </span>
+      )}
+    </span>
+  );
+}
 
 function LiteYouTube({ videoId }: { videoId: string }) {
   const [active, setActive] = useState(false);
@@ -44,28 +69,61 @@ function LiteYouTube({ videoId }: { videoId: string }) {
           }
         }}
       />
-      {/* Dark overlay */}
-      <span className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
-      {/* Play button */}
-      <span className="absolute flex items-center justify-center w-16 h-16 rounded-full bg-white/90 group-hover:bg-white group-hover:scale-110 transition-all shadow-lg">
-        <svg className="w-6 h-6 text-[#1977f2] ml-1" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 5v14l11-7z" />
-        </svg>
-      </span>
+      <PlayOverlay />
+    </button>
+  );
+}
+
+/**
+ * Estonian hero video: a ~125KB muted 4s loop (trimmed + q_auto:low, 480px wide)
+ * stands in for the ~42MB Cloudinary player, which only loads once clicked.
+ */
+function LiteCloudinaryVideo() {
+  const [active, setActive] = useState(false);
+
+  if (active) {
+    return (
+      <iframe
+        src={HERO_VIDEO_PLAYER_SRC}
+        className="w-full h-full absolute inset-0"
+        style={{ aspectRatio: "640 / 360" }}
+        allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+        allowFullScreen
+        frameBorder="0"
+        title="Kliendid Kodulehele hero video"
+      />
+    );
+  }
+
+  return (
+    <button
+      className="w-full h-full absolute inset-0 flex items-center justify-center group cursor-pointer border-0 p-0 bg-transparent"
+      onClick={() => setActive(true)}
+      aria-label="Käivita video"
+    >
+      <video
+        src={HERO_VIDEO_PREVIEW_SRC}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className="w-full h-full object-cover"
+      />
+      <PlayOverlay label="Vajuta vaatamiseks" />
     </button>
   );
 }
 
 const brandLogos = [
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195721/kodumaa_kv_jbayj6.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195594/7_twuoz1.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195594/8_eegz9q.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/1_w1cwf2.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/4_uojv1x.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/5_exz5dp.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/3_jvip3b.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/2_myphby.png",
-  "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/6_duw1up.png",
+  { name: "Lottemaa", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1785872040/7_lj7ue8.png" },
+  { name: "Elitekliinik", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1785872039/8_mfcukt.png" },
+  { name: "Citysightseeing", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1782485171/4_ugjsys.png" },
+  { name: "Cityproperty", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1782485171/6_dmafk2.png" },
+  { name: "Haage Autoteenindus", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1782485171/3_tutlcu.png" },
+  { name: "Centrumfoto", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1782485171/1_xnojog.png" },
+  { name: "Tõstukikeskus", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/4_uojv1x.png" },
+  { name: "Sininevalgus", url: "https://res.cloudinary.com/dl4bzhitw/image/upload/v1777195593/2_myphby.png" },
 ];
 
 export function Hero() {
@@ -135,15 +193,7 @@ export function Hero() {
               {document.documentElement.lang === "en" ? (
                 <LiteYouTube videoId={YT_VIDEO_ID} />
               ) : (
-                <iframe
-                  src="https://player.cloudinary.com/embed/?cloud_name=dl4bzhitw&public_id=Kui_sa_oled_Eesti_ettevo%CC%83tja_siis_on_95_to%CC%83ena%CC%88osus_fudzdu"
-                  className="w-full h-full"
-                  style={{ aspectRatio: "640 / 360" }}
-                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  frameBorder="0"
-                  title="Kliendid Kodulehele hero video"
-                />
+                <LiteCloudinaryVideo />
               )}
             </div>
           </motion.div>
@@ -190,14 +240,14 @@ export function Hero() {
             <div className="logo-marquee-track">
               {[...brandLogos, ...brandLogos].map((logo, index) => (
                 <div
-                  key={`${logo}-${index}`}
+                  key={`${logo.name}-${index}`}
                   className="h-12 lg:h-14 min-w-[140px] lg:min-w-[170px] px-5 flex items-center justify-center"
                 >
                   <img
-                    src={cld(logo, { w: 240 })}
-                    srcSet={cldSrcSet(logo, [170, 240, 340])}
+                    src={cld(logo.url, { w: 240 })}
+                    srcSet={cldSrcSet(logo.url, [170, 240, 340])}
                     sizes="(min-width: 1024px) 170px, 140px"
-                    alt={`Partner logo ${index % brandLogos.length + 1}`}
+                    alt={logo.name}
                     loading="lazy"
                     decoding="async"
                     className="max-h-full max-w-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"

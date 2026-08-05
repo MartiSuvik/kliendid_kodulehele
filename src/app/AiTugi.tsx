@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import brandLogo from "../assets/logo.svg";
-import { ContactLinksInline } from "./components/ContactLinks";
+import { Navigation } from "./components/Navigation";
 import { trackLead } from "../lib/analytics";
 import { ReviewsCarousel } from "./components/ReviewsCarousel";
 import { cld } from "../lib/cloudinary";
@@ -171,37 +171,6 @@ function SketchArrow({ color = SKETCH, delay = 0.3, className = "", style }: { c
         transition={{ duration: 0.22, ease: "linear", delay: delay + 0.42 }}
       />
     </svg>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*  Minimal header                                                             */
-/* -------------------------------------------------------------------------- */
-
-function MinimalHeader() {
-  return (
-    <header className="sticky top-0 z-40 border-b border-[#eaeef3] bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-3.5 lg:px-8">
-        <a href="/" className="flex items-center gap-2 no-underline" aria-label="Kliendid Kodulehele">
-          <img src={brandLogo} alt="" className="h-[26px] w-[26px] object-contain" />
-          <span className="font-['Inter'] font-semibold tracking-tight text-[#0b1220]" style={{ fontSize: "20px" }}>
-            Kliendid Kodulehele
-          </span>
-        </a>
-        <div className="flex items-center gap-4">
-          <ContactLinksInline source="service_header" className="hidden md:flex" />
-          <button
-            type="button"
-            data-event="sample_cta_click"
-            onClick={() => scrollToForm("header")}
-            className="rounded-lg bg-[#0b1220] px-4 py-2.5 font-['Inter'] font-semibold text-white transition-[transform,background-color] duration-200 hover:bg-[#1b2438] active:scale-[0.98]"
-            style={{ fontSize: "14px" }}
-          >
-            {isEnglish ? "Get a demo" : "Saa AI-demo"}
-          </button>
-        </div>
-      </div>
-    </header>
   );
 }
 
@@ -732,7 +701,7 @@ export default function AiTugi() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <MinimalHeader />
+      <Navigation />
 
       {/* ================================================================== */}
       {/* 1. HERO                                                             */}

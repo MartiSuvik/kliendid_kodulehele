@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 import { Navigation } from "./components/Navigation";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
-import { Benefits } from "./components/Benefits";
 import { CaseStudies } from "./components/CaseStudies";
 import { GoogleReviews } from "./components/GoogleReviews";
 import { FAQ } from "./components/FAQ";
@@ -10,7 +9,7 @@ import { Pricing } from "./components/Pricing";
 import { Footer } from "./components/Footer";
 import { useScrollProgress } from "./components/hooks/useAnimations";
 import * as m from "../paraglide/messages.js";
-import { ReviewsCarousel } from "./components/ReviewsCarousel.js";
+import { TestimonialsSpotlight } from "./components/TestimonialsSpotlight";
 import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import { useRef } from "react";
 import { cld } from "../lib/cloudinary";
@@ -232,9 +231,8 @@ function ResultsCarousel() {
       />
       <Navigation />
       <Hero />
-      <ReviewsCarousel />
+      <TestimonialsSpotlight />
       <ResultsCarousel />
-      <Benefits />
       <About />
       <FAQ />
       <Footer />

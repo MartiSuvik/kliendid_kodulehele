@@ -2,7 +2,6 @@ import type { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { setLocale } from "./paraglide/runtime.js";
-import { onIdleOrInteraction, loadScript } from "./lib/loadThirdParty";
 import "./styles/index.css";
 
 // Detect /en/ prefix for English locale
@@ -42,30 +41,9 @@ const isKoduleheArendusPage = path === "/teenused/kodulehe-arendus" || path === 
 const isAiTugiPage = path === "/teenused/ai-tugi" || path === "/teenused/ai-tugi/";
 const isSotsiaalmeediaPage = path === "/teenused/sotsiaalmeedia" || path === "/teenused/sotsiaalmeedia/";
 const isServicesPage = path.startsWith("/teenused/");
-const elevenLabsAgentId = "agent_9501kn042dwrfkxrpwa28qfc2bv6";
 
 // Build locale prefix for internal links
 (window as any).__localePrefix = isEnglish ? "/en" : "";
-
-if (!isKoduleheSeoPage) {
-  // Chat widget is deferred the most: it mounts on the first user interaction or
-  // after a longer idle window, so its ~419 KiB never competes with first paint.
-  onIdleOrInteraction(() => {
-    if (!document.querySelector("elevenlabs-convai")) {
-      const widget = document.createElement("elevenlabs-convai");
-      widget.setAttribute("agent-id", elevenLabsAgentId);
-      document.body.appendChild(widget);
-    }
-
-    if (!document.getElementById("ElevenLabsConvaiWidgetEmbed")) {
-      loadScript("https://unpkg.com/@elevenlabs/convai-widget-embed", {
-        id: "ElevenLabsConvaiWidgetEmbed",
-        async: true,
-        type: "text/javascript",
-      });
-    }
-  }, 5000);
-}
 
 // Geo-redirect: send human visitors located outside Estonia from an Estonian-language
 // page to the /en/ equivalent. Search-engine crawlers are excluded so Google (which crawls
