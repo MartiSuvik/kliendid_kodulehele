@@ -7,8 +7,7 @@ import * as m from "../../paraglide/messages.js";
 const YT_VIDEO_ID = "0X7_ijQXQCA";
 const HERO_VIDEO_PUBLIC_ID = "kliendidkodulehele_hero_video";
 const HERO_VIDEO_PREVIEW_SRC = `https://res.cloudinary.com/dl4bzhitw/video/upload/f_auto,q_auto:low,w_480,so_0,eo_4/${HERO_VIDEO_PUBLIC_ID}.mp4`;
-const HERO_VIDEO_PLAYER_SRC =
-  "https://player.cloudinary.com/embed/?cloud_name=dl4bzhitw&public_id=Kui_sa_oled_Eesti_ettevo%CC%83tja_siis_on_95_to%CC%83ena%CC%88osus_fudzdu&autoplay=true";
+const HERO_VIDEO_PLAYER_SRC = `https://player.cloudinary.com/embed/?cloud_name=dl4bzhitw&public_id=${HERO_VIDEO_PUBLIC_ID}&autoplay=true`;
 
 /** Centered play glyph (+ optional caption) shared by both click-to-play video variants. */
 function PlayOverlay({ label }: { label?: string }) {

@@ -25,6 +25,7 @@ const path = strippedPath.toLowerCase();
 
 const isPortfolioPage = path === "/portfolio" || path === "/portfolio/";
 const isAuditPage = path === "/audit" || path === "/audit/";
+const isGoogleAuditPage = path === "/google-audit" || path === "/google-audit/";
 // /contact and /konsultatsioon were retired in favour of /audit; Netlify 301s
 // them at the edge (see public/_redirects), so they never reach this router.
 // Google Ads landing page. The legacy /teenused/muugikonversioon route now
@@ -75,19 +76,21 @@ const loadPage: () => Promise<{ default: ComponentType<any> }> =
     ? () => import("./app/Portfolio.tsx")
     : isAuditPage
       ? () => import("./app/Audit.tsx")
-      : isKoduleheSeoPage
-        ? () => import("./app/KoduleheSeo.tsx")
-        : isGoogleSeoPage
-          ? () => import("./app/GoogleSeo.tsx")
-          : isKoduleheArendusPage
-            ? () => import("./app/KoduleheArendus.tsx")
-            : isAiTugiPage
-              ? () => import("./app/AiTugi.tsx")
-              : isSotsiaalmeediaPage
-                ? () => import("./app/Sotsiaalmeedia.tsx")
-                : isServicesPage
-                  ? () => import("./app/Services.tsx")
-                  : () => import("./app/App.tsx");
+      : isGoogleAuditPage
+        ? () => import("./app/GoogleAudit.tsx")
+        : isKoduleheSeoPage
+          ? () => import("./app/KoduleheSeo.tsx")
+          : isGoogleSeoPage
+            ? () => import("./app/GoogleSeo.tsx")
+            : isKoduleheArendusPage
+              ? () => import("./app/KoduleheArendus.tsx")
+              : isAiTugiPage
+                ? () => import("./app/AiTugi.tsx")
+                : isSotsiaalmeediaPage
+                  ? () => import("./app/Sotsiaalmeedia.tsx")
+                  : isServicesPage
+                    ? () => import("./app/Services.tsx")
+                    : () => import("./app/App.tsx");
 
 loadPage().then(({ default: Page }) => {
   createRoot(document.getElementById("root")!).render(
