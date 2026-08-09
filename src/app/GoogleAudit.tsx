@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
-import brandLogo from "../assets/logo.svg";
 import { trackLead } from "../lib/analytics";
 import { Footer } from "./components/Footer";
 import { Navigation } from "./components/Navigation";
@@ -130,6 +129,7 @@ function HorizonGlow() {
 function ReportPreview() {
   return (
     <div className="relative mx-auto w-full max-w-[500px]">
+      <p className="mb-3 text-center font-['Inter'] text-[14px] font-bold tracking-[0.12em] text-[#8996a6]">NÄIDIS</p>
       <div className="absolute -inset-6 rounded-[36px] bg-[#e5484d]/[0.08] blur-2xl" aria-hidden="true" />
       <div className="relative overflow-hidden rounded-[28px] border border-[#e4d9da] bg-white p-4 shadow-[0_30px_80px_-42px_rgba(127,29,29,0.45)] sm:p-5">
 
