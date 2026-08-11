@@ -4,91 +4,70 @@ import { motion } from "motion/react";
 import { useInView } from "./hooks/useAnimations";
 import * as m from "../../paraglide/messages.js";
 
-function getFaqs() {
+/** FAQ copy grouped by topic. Question order matches messages/{et,en}.json faq_q1..faq_q27. */
+function getFaqGroups() {
   return [
     {
-      question: m.faq_q1(),
-      answer: m.faq_a1(),
+      label: m.faq_cat_results(),
+      items: [
+        { question: m.faq_q1(), answer: m.faq_a1() },
+        { question: m.faq_q2(), answer: m.faq_a2() },
+        { question: m.faq_q3(), answer: m.faq_a3() },
+      ],
     },
     {
-      question: m.faq_q2(),
-      answer: m.faq_a2(),
+      label: m.faq_cat_website(),
+      items: [
+        { question: m.faq_q4(), answer: m.faq_a4() },
+        { question: m.faq_q5(), answer: m.faq_a5() },
+        { question: m.faq_q6(), answer: m.faq_a6() },
+        { question: m.faq_q7(), answer: m.faq_a7() },
+      ],
     },
     {
-      question: m.faq_q3(),
-      answer: m.faq_a3(),
+      label: m.faq_cat_ecommerce(),
+      items: [
+        { question: m.faq_q8(), answer: m.faq_a8() },
+        { question: m.faq_q9(), answer: m.faq_a9() },
+        { question: m.faq_q10(), answer: m.faq_a10() },
+        { question: m.faq_q11(), answer: m.faq_a11() },
+      ],
     },
     {
-      question: m.faq_q4(),
-      answer: m.faq_a4(),
+      label: m.faq_cat_seo(),
+      items: [
+        { question: m.faq_q12(), answer: m.faq_a12() },
+        { question: m.faq_q13(), answer: m.faq_a13() },
+        { question: m.faq_q14(), answer: m.faq_a14() },
+        { question: m.faq_q15(), answer: m.faq_a15() },
+        { question: m.faq_q16(), answer: m.faq_a16() },
+        { question: m.faq_q17(), answer: m.faq_a17() },
+      ],
     },
     {
-      question: m.faq_q5(),
-      answer: m.faq_a5(),
+      label: m.faq_cat_cro(),
+      items: [
+        { question: m.faq_q18(), answer: m.faq_a18() },
+        { question: m.faq_q19(), answer: m.faq_a19() },
+        { question: m.faq_q20(), answer: m.faq_a20() },
+      ],
     },
     {
-      question: m.faq_q6(),
-      answer: m.faq_a6(),
+      label: m.faq_cat_ai(),
+      items: [
+        { question: m.faq_q21(), answer: m.faq_a21() },
+        { question: m.faq_q22(), answer: m.faq_a22() },
+        { question: m.faq_q23(), answer: m.faq_a23() },
+      ],
     },
     {
-      question: m.faq_q7(),
-      answer: m.faq_a7(),
-    },
-    {
-      question: m.faq_q8(),
-      answer: m.faq_a8(),
-    },
-    {
-      question: m.faq_q9(),
-      answer: m.faq_a9(),
-    },
-    {
-      question: m.faq_q10(),
-      answer: m.faq_a10(),
-    },
-    {
-      question: m.faq_q11(),
-      answer: m.faq_a11(),
-    },
-    {
-      question: m.faq_q12(),
-      answer: m.faq_a12(),
-    },
-    {
-      question: m.faq_q13(),
-      answer: m.faq_a13(),
-    },
-    {
-      question: m.faq_q14(),
-      answer: m.faq_a14(),
-    },
-    {
-      question: m.faq_q15(),
-      answer: m.faq_a15(),
-    },
-    {
-      question: m.faq_q16(),
-      answer: m.faq_a16(),
-    },
-    {
-      question: m.faq_q17(),
-      answer: m.faq_a17(),
-    },
-    {
-      question: m.faq_q18(),
-      answer: m.faq_a18(),
-    },
-    {
-      question: m.faq_q19(),
-      answer: m.faq_a19(),
-    },
-    {
-      question: m.faq_q20(),
-      answer: m.faq_a20(),
-    },
-    {
-      question: m.faq_q21(),
-      answer: m.faq_a21(),
+      label: m.faq_cat_general(),
+      items: [
+        { question: m.faq_q24(), answer: m.faq_a24() },
+        { question: m.faq_q25(), answer: m.faq_a25() },
+        { question: m.faq_q26(), answer: m.faq_a26() },
+        { question: m.faq_q27(), answer: m.faq_a27() },
+      ],
     },
   ];
 }
@@ -152,20 +131,24 @@ function AccordionItem({ faq, isOpen, onToggle, index, inView }: {
 }
 
 export function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const { ref, inView } = useInView(0.1);
-  const faqs = getFaqs();
+  const faqGroups = getFaqGroups();
+  // Schema stays flat and is generated from the same strings the page renders,
+  // so the structured data can never drift from the visible copy.
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
+    mainEntity: faqGroups.flatMap((group) =>
+      group.items.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    ),
   };
 
   return (
@@ -205,17 +188,36 @@ export function FAQ() {
           </h2>
         </motion.div>
 
-        {/* Questions */}
-        <div className="bg-[#eee] rounded-xl p-3 flex flex-col gap-2.5">
-          {faqs.map((faq, i) => (
-            <AccordionItem
-              key={i}
-              faq={faq}
-              isOpen={openIndex === i}
-              onToggle={() => setOpenIndex(openIndex === i ? null : i)}
-              index={i}
-              inView={inView}
-            />
+        {/* Questions, grouped by topic */}
+        <div className="flex flex-col gap-8">
+          {faqGroups.map((group, gi) => (
+            <div key={group.label}>
+              <motion.p
+                className="font-['Inter'] text-[#707070] mb-3 px-1"
+                style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase" }}
+                initial={{ opacity: 0, y: 8 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.4, delay: 0.1 + gi * 0.05 }}
+              >
+                {group.label}
+              </motion.p>
+
+              <div className="bg-[#eee] rounded-xl p-3 flex flex-col gap-2.5">
+                {group.items.map((faq, i) => {
+                  const key = `${gi}-${i}`;
+                  return (
+                    <AccordionItem
+                      key={key}
+                      faq={faq}
+                      isOpen={openKey === key}
+                      onToggle={() => setOpenKey(openKey === key ? null : key)}
+                      index={i}
+                      inView={inView}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           ))}
         </div>
       </div>

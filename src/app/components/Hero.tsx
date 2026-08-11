@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-import { useMagnetic } from "./hooks/useAnimations";
+import confetti from "canvas-confetti";
 import { cld, cldSrcSet } from "../../lib/cloudinary";
+import { trackLead } from "../../lib/analytics";
 import * as m from "../../paraglide/messages.js";
+
+const CONTACT_WEBHOOK_URL = "https://hook.eu1.make.com/vau19fpxdf9oh3wogukdub9arbvg3mgq";
 
 const YT_VIDEO_ID = "0X7_ijQXQCA";
 const HERO_VIDEO_PUBLIC_ID = "kliendidkodulehele_hero_video";
@@ -126,77 +129,186 @@ const brandLogos = [
 ];
 
 export function Hero() {
-  const magnetic = useMagnetic(0.25);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    // Capture before any async/state work — React nulls currentTarget after the handler.
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    const payload = {
+      email: String(formData.get("email") ?? ""),
+      website: String(formData.get("website") ?? ""),
+      packageSlug: "avaleht-hero",
+      packageLabel: "Homepage hero form",
+      submittedAt: new Date().toISOString(),
+      pageUrl: window.location.href,
+    };
+
+    try {
+      const iframeId = "make-webhook-target";
+      let targetFrame = document.getElementById(iframeId) as HTMLIFrameElement | null;
+
+      if (!targetFrame) {
+        targetFrame = document.createElement("iframe");
+        targetFrame.id = iframeId;
+        targetFrame.name = iframeId;
+        targetFrame.style.display = "none";
+        document.body.appendChild(targetFrame);
+      }
+
+      const hiddenForm = document.createElement("form");
+      hiddenForm.method = "POST";
+      hiddenForm.action = CONTACT_WEBHOOK_URL;
+      hiddenForm.target = iframeId;
+      hiddenForm.style.display = "none";
+
+      Object.entries(payload).forEach(([key, value]) => {
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "hidden";
+        hiddenInput.name = key;
+        hiddenInput.value = String(value);
+        hiddenForm.appendChild(hiddenInput);
+      });
+
+      document.body.appendChild(hiddenForm);
+      hiddenForm.submit();
+      hiddenForm.remove();
+
+      form.reset();
+      setIsSubmitted(true);
+      trackLead("hero_form");
+      confetti({ particleCount: 90, spread: 70, startVelocity: 32, origin: { y: 0.45 } });
+    } catch {
+      setSubmitError(m.contact_error());
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const fieldClass =
+    "w-full rounded-xl border border-[#dcdcdc] bg-[#fafafa] px-5 h-[58px] font-['Poppins'] text-black " +
+    "placeholder:text-[#9a9a9a] outline-none transition-colors duration-200 " +
+    "focus:border-[#1977f2] focus:bg-white focus:ring-4 focus:ring-[#1977f2]/15";
 
   return (
     <section className="bg-white overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-16 pt-16 pb-8 lg:pt-24 lg:pb-12">
-        {/* Status badge */}
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-16 pt-8 pb-8 lg:pt-12 lg:pb-12">
+        {/* Headline + lead form — stacked, form-first for paid traffic */}
         <motion.div
-          className="flex items-center gap-2 mb-8"
-          initial={{ opacity: 0, filter: "blur(8px)" }}
-          animate={{ opacity: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-[680px] mx-auto text-center"
+          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
-          </span>
-          <span className="font-['Inter'] text-[#4d4d4d]" style={{ fontSize: '12px' }}>{m.hero_location()}</span>
+          <h1
+            className="font-['Poppins'] text-black font-semibold text-[28px] lg:text-[38px] mb-7"
+            style={{ lineHeight: "1.18", letterSpacing: "-0.02em" }}
+          >
+            {m.hero_headline()}
+          </h1>
+
+          <motion.div
+            className="max-w-[520px] mx-auto"
+            initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+          >
+            {!isSubmitted ? (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
+                <label htmlFor="hero-email" className="sr-only">
+                  {m.hero_form_email_label()}
+                </label>
+                <input
+                  id="hero-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder={m.hero_form_email_placeholder()}
+                  className={fieldClass}
+                  style={{ fontSize: "16px" }}
+                />
+
+                <label htmlFor="hero-website" className="sr-only">
+                  {m.hero_form_website_label()}
+                </label>
+                <input
+                  id="hero-website"
+                  name="website"
+                  type="text"
+                  inputMode="url"
+                  autoComplete="url"
+                  placeholder={m.hero_form_website_placeholder()}
+                  className={fieldClass}
+                  style={{ fontSize: "16px" }}
+                />
+
+                {/* Fat primary CTA — keeps the site's signature gradient glow */}
+                <div className="relative group mt-1">
+                  <div className="pointer-events-none absolute -inset-px rounded-xl bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 blur-lg opacity-60 transition-opacity duration-1000 group-hover:opacity-100 group-hover:duration-200" />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="relative w-full bg-[#1977f2] text-white font-['Poppins'] font-semibold rounded-xl px-8 py-[22px] cursor-pointer hover:bg-[#0f66d8] disabled:opacity-70 disabled:cursor-not-allowed transition-colors duration-200"
+                    style={{ fontSize: "18px", letterSpacing: "-0.01em" }}
+                  >
+                    {isSubmitting ? m.hero_form_submitting() : m.hero_form_submit()}
+                  </button>
+                </div>
+
+                <p
+                  className="font-['Inter'] text-[#8a8a8a] text-center mt-1"
+                  style={{ fontSize: "13px" }}
+                >
+                  {m.hero_form_note()}
+                </p>
+
+                {submitError && (
+                  <p className="font-['Poppins'] text-[#c0392b] text-center" style={{ fontSize: "14px" }}>
+                    {submitError}
+                  </p>
+                )}
+              </form>
+            ) : (
+              <div className="rounded-2xl border border-[#d7e7fb] bg-[#f2f8ff] px-6 py-8">
+                <h2
+                  className="font-['Poppins'] font-semibold text-black mb-2"
+                  style={{ fontSize: "24px", lineHeight: "1.25" }}
+                >
+                  {m.contact_success_heading()}
+                </h2>
+                <p className="font-['Poppins'] text-[#505050]" style={{ fontSize: "16px", lineHeight: "1.6" }}>
+                  {m.contact_success_body()}
+                </p>
+              </div>
+            )}
+          </motion.div>
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-          {/* Left — #1 Hero Reveal */}
-          <motion.div
-            className="flex-1 max-w-[540px]"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <h1 className="font-['Poppins'] text-black mb-6 font-semibold" style={{ fontSize: '44px', lineHeight: '1.15' }}>
-              {m.hero_headline()}
-            </h1>
-
-            {/* #9 Magnetic CTA */}
-            <motion.div
-              className="relative inline-flex items-center justify-center group"
-              initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <div className="pointer-events-none absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 blur-lg opacity-60 transition-all duration-1000 group-hover:opacity-100 group-hover:duration-200" />
-              <motion.button
-                type="button"
-                ref={magnetic.ref}
-                onClick={() => {
-                  window.location.href = (window as any).__localePrefix + "/audit";
-                }}
-                onMouseMove={magnetic.onMouseMove}
-                onMouseLeave={magnetic.onMouseLeave}
-                className="relative bg-[#1977f2] text-white font-['Poppins'] font-medium px-8 py-4 rounded-xl hover:bg-[#3a50e0] cursor-pointer"
-                style={{ fontSize: '16px', transition: 'background-color 0.2s' }}
-              >
-                {m.hero_cta()}
-              </motion.button>
-            </motion.div>
-          </motion.div>
-
-          {/* Right - Video placeholder */}
-          <motion.div
-            className="flex-1 w-full max-w-[570px]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="relative rounded-xl overflow-hidden bg-black aspect-video">
-              {document.documentElement.lang === "en" ? (
-                <LiteYouTube videoId={YT_VIDEO_ID} />
-              ) : (
-                <LiteCloudinaryVideo />
-              )}
-            </div>
-          </motion.div>
-        </div>
+        {/* Video — directly under the form */}
+        <motion.div
+          className="w-full max-w-[820px] mx-auto mt-12 lg:mt-14"
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <div className="relative rounded-xl overflow-hidden bg-black aspect-video">
+            {document.documentElement.lang === "en" ? (
+              <LiteYouTube videoId={YT_VIDEO_ID} />
+            ) : (
+              <LiteCloudinaryVideo />
+            )}
+          </div>
+        </motion.div>
 
         {/* Trust badges 
         <div className="flex flex-wrap gap-3 mt-10">
