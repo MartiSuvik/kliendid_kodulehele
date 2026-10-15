@@ -25,6 +25,62 @@ function getServiceItems() {
   ];
 }
 
+/**
+ * Nav entries must be real `<a href>` so crawlers can follow them.
+ *
+ * These were `<button onClick={navigate}>`, which left exactly ONE crawlable
+ * link on the whole site (the logo -> "/"). Googlebot cannot follow a button,
+ * so it saw 15 sitemap URLs with no inbound links and indexed 2 of them.
+ *
+ * navigate() ended in `window.location.href = href` — a full page load — so an
+ * anchor loses no behaviour. onClick now only intercepts same-page hash links,
+ * to keep the smooth-scroll for "/#kkk" when you are already on "/".
+ */
+function NavLink({
+  href,
+  onNavigate,
+  className,
+  style,
+  children,
+}: {
+  href: string;
+  onNavigate?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      className={className}
+      style={style}
+      onClick={(e) => {
+        const target = new URL(href, window.location.origin);
+        if (target.pathname === window.location.pathname && target.hash) {
+          const el = document.getElementById(decodeURIComponent(target.hash.slice(1)));
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: "smooth" });
+            window.history.replaceState(null, "", `${target.pathname}${target.hash}`);
+          }
+        }
+        onNavigate?.();
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+/** Target URL for the language toggle, so it can be an <a> with a real href. */
+function localeSwitchHref(currentLocale: string) {
+  const path = window.location.pathname;
+  if (currentLocale === baseLocale) {
+    return `/en${path === "/" ? "/" : path}`;
+  }
+  return path.replace(/^\/en\/?/i, "/") || "/";
+}
+
 export function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
@@ -32,37 +88,10 @@ export function Navigation() {
   const navItems = getNavItems();
   const serviceItems = getServiceItems();
 
-  const navigate = (href: string) => {
+  /** Anchors handle the navigation now; this just closes any open menu. */
+  const closeMenus = () => {
     setMobileOpen(false);
     setServicesDropdownOpen(false);
-
-    const targetUrl = new URL(href, window.location.origin);
-    const isSamePage = targetUrl.pathname === window.location.pathname;
-
-    if (isSamePage && targetUrl.hash) {
-      const sectionId = decodeURIComponent(targetUrl.hash.slice(1));
-      const element = document.getElementById(sectionId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-        window.history.replaceState(null, "", `${targetUrl.pathname}${targetUrl.hash}`);
-        return;
-      }
-    }
-
-    window.location.href = href;
-  };
-
-  const switchLocale = () => {
-    const newLocale = locale === baseLocale ? "en" : "et";
-    const currentPath = window.location.pathname;
-    if (newLocale === "en") {
-      // Going to English: add /en prefix
-      window.location.href = `/en${currentPath === "/" ? "" : currentPath}`;
-    } else {
-      // Going to Estonian: strip /en prefix
-      const stripped = currentPath.replace(/^\/en\/?/i, "/");
-      window.location.href = stripped || "/";
-    }
   };
 
   return (
@@ -76,14 +105,15 @@ export function Navigation() {
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
-            <button
+            <NavLink
               key={item.href}
-              onClick={() => navigate(item.href)}
-              className="font-['Poppins'] text-black hover:text-[#1977f2] transition-colors cursor-pointer"
+              href={item.href}
+              onNavigate={closeMenus}
+              className="font-['Poppins'] text-black hover:text-[#1977f2] transition-colors cursor-pointer no-underline"
               style={{ fontSize: '14px' }}
             >
               {item.label}
-            </button>
+            </NavLink>
           ))}
           
           {/* Services Dropdown */}
@@ -97,52 +127,60 @@ export function Navigation() {
               <ChevronDown size={14} className={`transition-transform ${servicesDropdownOpen ? 'rotate-180' : ''}`} />
             </button>
             
-            <AnimatePresence>
-              {servicesDropdownOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max"
+            {/* Always mounted, hidden with CSS rather than conditionally
+                rendered: a crawler only sees links that exist in the DOM, and
+                these five service pages need every inbound link they can get.
+                The panel is absolutely positioned, so keeping it mounted costs
+                no layout; pointer-events/visibility stop it catching clicks. */}
+            <motion.div
+              initial={false}
+              animate={{
+                opacity: servicesDropdownOpen ? 1 : 0,
+                y: servicesDropdownOpen ? 0 : -10,
+              }}
+              transition={{ duration: 0.15 }}
+              aria-hidden={!servicesDropdownOpen}
+              style={{
+                pointerEvents: servicesDropdownOpen ? "auto" : "none",
+                visibility: servicesDropdownOpen ? "visible" : "hidden",
+              }}
+              className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-max"
+            >
+              {serviceItems.map((item) => (
+                <NavLink
+                  key={item.href}
+                  href={item.href}
+                  onNavigate={() => setServicesDropdownOpen(false)}
+                  className="block w-full text-left px-4 py-2 text-black hover:bg-gray-50 hover:text-[#1977f2] transition-colors font-['Poppins'] no-underline"
+                  style={{ fontSize: '14px' }}
                 >
-                  {serviceItems.map((item) => (
-                    <button
-                      key={item.href}
-                      onClick={() => {
-                        navigate(item.href);
-                        setServicesDropdownOpen(false);
-                      }}
-                      className="block w-full text-left px-4 py-2 text-black hover:bg-gray-50 hover:text-[#1977f2] transition-colors font-['Poppins']"
-                      style={{ fontSize: '14px' }}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  {item.label}
+                </NavLink>
+              ))}
+            </motion.div>
           </div>
 
-          <button
-            onClick={() => navigate(localizeHref("/portfolio"))}
-            className="font-['Poppins'] text-black hover:text-[#1977f2] transition-colors cursor-pointer"
+          <NavLink
+            href={localizeHref("/portfolio")}
+            onNavigate={closeMenus}
+            className="font-['Poppins'] text-black hover:text-[#1977f2] transition-colors cursor-pointer no-underline"
             style={{ fontSize: '14px' }}
           >
             {m.nav_portfolio()}
-          </button>
+          </NavLink>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
           {/* Contact pair only from lg up — at md the nav row is already full. */}
           <ContactLinksInline source="header" className="hidden lg:flex" />
-          <button
-            onClick={switchLocale}
-            className="font-['Inter'] font-medium text-black hover:text-[#1977f2] transition-colors cursor-pointer px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300"
+          <a
+            href={localeSwitchHref(locale)}
+            hrefLang={locale === baseLocale ? "en" : "et"}
+            className="font-['Inter'] font-medium text-black hover:text-[#1977f2] transition-colors cursor-pointer px-3 py-2 rounded-lg border border-gray-200 hover:border-gray-300 no-underline"
             style={{ fontSize: '13px' }}
           >
             {m.lang_switch()}
-          </button>
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -163,14 +201,15 @@ export function Navigation() {
           >
             <div className="px-6 py-4 flex flex-col gap-4">
               {navItems.map((item) => (
-                <button
+                <NavLink
                   key={item.href}
-                  onClick={() => navigate(item.href)}
-                  className="font-['Poppins'] text-black text-left cursor-pointer"
+                  href={item.href}
+                  onNavigate={closeMenus}
+                  className="font-['Poppins'] text-black text-left cursor-pointer no-underline"
                   style={{ fontSize: '14px' }}
                 >
                   {item.label}
-                </button>
+                </NavLink>
               ))}
               
               {/* Mobile Services Dropdown */}
@@ -194,39 +233,38 @@ export function Navigation() {
                       className="overflow-hidden"
                     >
                       {serviceItems.map((item) => (
-                        <button
+                        <NavLink
                           key={item.href}
-                          onClick={() => {
-                            navigate(item.href);
-                            setServicesDropdownOpen(false);
-                            setMobileOpen(false);
-                          }}
-                          className="block w-full text-left px-4 py-2 text-black text-sm font-['Poppins'] ml-2 border-l-2 border-gray-200"
+                          href={item.href}
+                          onNavigate={closeMenus}
+                          className="block w-full text-left px-4 py-2 text-black text-sm font-['Poppins'] ml-2 border-l-2 border-gray-200 no-underline"
                           style={{ fontSize: '13px' }}
                         >
                           {item.label}
-                        </button>
+                        </NavLink>
                       ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
-              <button
-                onClick={() => navigate(localizeHref("/portfolio"))}
-                className="font-['Poppins'] text-black text-left cursor-pointer"
+              <NavLink
+                href={localizeHref("/portfolio")}
+                onNavigate={closeMenus}
+                className="font-['Poppins'] text-black text-left cursor-pointer no-underline"
                 style={{ fontSize: '14px' }}
               >
                 {m.nav_portfolio()}
-              </button>
+              </NavLink>
 
-              <button
-                onClick={switchLocale}
-                className="font-['Inter'] font-medium text-black text-center cursor-pointer px-3 py-2 rounded-lg border border-gray-200"
+              <a
+                href={localeSwitchHref(locale)}
+                hrefLang={locale === baseLocale ? "en" : "et"}
+                className="font-['Inter'] font-medium text-black text-center cursor-pointer px-3 py-2 rounded-lg border border-gray-200 no-underline"
                 style={{ fontSize: '13px' }}
               >
                 {m.lang_switch()}
-              </button>
+              </a>
 
               <ContactLinksStacked
                 source="header_mobile"

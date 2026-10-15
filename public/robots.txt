@@ -1,4 +1,56 @@
+# Default: everything is crawlable.
 User-agent: *
+Allow: /
+
+# AI crawlers, listed explicitly. Functionally identical to the wildcard above,
+# but stated so the intent is auditable and a future disallow is a deliberate
+# edit rather than an accident. These bots do not execute JavaScript, which is
+# why every route is prerendered to static HTML at build time.
+
+# OpenAI — training, live ChatGPT Search, and user-initiated fetches
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google AI surfaces (AI Overviews / Gemini grounding)
+User-agent: Google-Extended
+Allow: /
+
+# Microsoft Copilot rides the Bing index
+User-agent: bingbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Common Crawl — a training corpus for most open models
+User-agent: CCBot
 Allow: /
 
 Sitemap: https://kliendidkodulehele.ee/sitemap.xml

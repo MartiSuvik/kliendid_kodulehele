@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import { cld, cldSrcSet } from "../lib/cloudinary";
@@ -119,26 +120,32 @@ export default function Portfolio() {
       <Helmet>
         <title>{m.portfolio_title()}</title>
         <meta name="description" content={m.portfolio_description()} />
-        <link rel="canonical" href={canonical} />
+        {...seoLinks("/portfolio", document.documentElement.lang === "en")}
         <meta property="og:title" content={m.portfolio_title()} />
         <meta property="og:description" content={m.portfolio_description()} />
         <meta property="og:url" content={canonical} />
         <meta name="twitter:title" content={m.portfolio_title()} />
         <meta name="twitter:description" content={m.portfolio_description()} />
-        <link rel="alternate" hrefLang="et" href="https://kliendidkodulehele.ee/portfolio" />
-        <link rel="alternate" hrefLang="en" href="https://kliendidkodulehele.ee/en/portfolio" />
+
       </Helmet>
       <Navigation />
       <main className="pt-28 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page heading */}
           <div className="text-center mb-16">
+            {/* Keyword H1; the display heading below keeps the visual weight. */}
             <h1
+              className="font-['Poppins'] font-semibold uppercase text-[#1977f2] mb-3"
+              style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+            >
+              {m.portfolio_h1()}
+            </h1>
+            <p
               className="font-['Cormorant_Garamond'] font-bold text-gray-900 leading-tight"
               style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
             >
               {m.portfolio_heading()}
-            </h1>
+            </p>
             <p
               className="mt-4 font-['Poppins'] text-gray-500 max-w-2xl mx-auto"
               style={{ fontSize: "clamp(0.95rem, 2vw, 1.125rem)" }}

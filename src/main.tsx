@@ -2,46 +2,21 @@ import type { ComponentType } from "react";
 import { createRoot } from "react-dom/client";
 import { HelmetProvider } from "react-helmet-async";
 import { setLocale } from "./paraglide/runtime.js";
+import { matchRoute, notFoundPage } from "./routes";
 import "./styles/index.css";
 
-// Detect /en/ prefix for English locale
+// Route resolution lives in src/routes.ts so the prerenderer, the sitemap
+// generator and this file can never disagree about what exists.
 const rawPath = window.location.pathname;
-const isEnglish = rawPath.toLowerCase().startsWith("/en/") || rawPath.toLowerCase() === "/en";
+const { page, isEnglish, locale } = matchRoute(rawPath);
 
-// Always set locale explicitly so a stale cookie can't override the URL
-if (isEnglish) {
-  setLocale("en");
-  document.documentElement.lang = "en";
-} else {
-  setLocale("et");
-  document.documentElement.lang = "et";
-}
-
-// Strip the /en prefix for route matching
-const strippedPath = isEnglish
-  ? rawPath.replace(/^\/en\/?/i, "/")
-  : rawPath;
-const path = strippedPath.toLowerCase();
-
-const isPortfolioPage = path === "/portfolio" || path === "/portfolio/";
-const isAuditPage = path === "/audit" || path === "/audit/";
-const isGoogleAuditPage = path === "/google-audit" || path === "/google-audit/";
-// /contact and /konsultatsioon were retired in favour of /audit; Netlify 301s
-// them at the edge (see public/_redirects), so they never reach this router.
-// Google Ads landing page. The legacy /teenused/muugikonversioon route now
-// resolves to this page as well, so it must be checked before isServicesPage.
-const isKoduleheSeoPage =
-  path === "/kodulehe-tegemine-seo" ||
-  path === "/kodulehe-tegemine-seo/" ||
-  path === "/teenused/muugikonversioon" ||
-  path === "/teenused/muugikonversioon/";
-// Each service now has its own full landing page (duplicated from muugikonversioon),
-// checked before the generic isServicesPage fallback.
-const isGoogleSeoPage = path === "/teenused/google-seo" || path === "/teenused/google-seo/";
-const isKoduleheArendusPage = path === "/teenused/kodulehe-arendus" || path === "/teenused/kodulehe-arendus/";
-const isAiTugiPage = path === "/teenused/ai-tugi" || path === "/teenused/ai-tugi/";
-const isSotsiaalmeediaPage = path === "/teenused/sotsiaalmeedia" || path === "/teenused/sotsiaalmeedia/";
-const isServicesPage = path.startsWith("/teenused/");
+// Always set locale explicitly so a stale cookie can't override the URL.
+// reload:false is important — paraglide's setLocale defaults to reload:true,
+// which made every /en/ visit load the document TWICE (and therefore fire a
+// second Meta Pixel PageView and a second Clarity session). We set the locale
+// before the first render, so the reload buys nothing.
+setLocale(locale, { reload: false });
+document.documentElement.lang = locale;
 
 // Build locale prefix for internal links
 (window as any).__localePrefix = isEnglish ? "/en" : "";
@@ -53,6 +28,10 @@ const isServicesPage = path.startsWith("/teenused/");
 //
 // Uses geojs.io (HTTPS + CORS, no key). The previous ip-api.com endpoint returned 403 over
 // HTTPS on the free tier, so the redirect silently never fired.
+//
+// NOTE: the `headless` term in this regex is load-bearing for the build — the prerenderer
+// (vite-plugins/prerender.ts) drives a headless Chrome whose default UA contains
+// "HeadlessChrome", so this check keeps the build from being redirected to /en/.
 const GEO_FLAG = "geo_checked";
 const isCrawler = /bot|crawl|spider|slurp|mediapartners|adsbot|inspectiontool|lighthouse|headless|facebookexternalhit|embedly|bingpreview|duckduck|yandex|baidu|pinterest|whatsapp|telegram|slackbot|twitterbot/i.test(navigator.userAgent);
 if (!isEnglish && !isCrawler && !sessionStorage.getItem(GEO_FLAG)) {
@@ -69,28 +48,10 @@ if (!isEnglish && !isCrawler && !sessionStorage.getItem(GEO_FLAG)) {
     .catch(() => { /* silently ignore on API failure */ });
 }
 
-// Route → lazy page loader. Only the matched page's chunk is fetched, so the
-// entry bundle no longer carries all 8 pages (removes ~503 KiB of unused JS).
-const loadPage: () => Promise<{ default: ComponentType<any> }> =
-  isPortfolioPage
-    ? () => import("./app/Portfolio.tsx")
-    : isAuditPage
-      ? () => import("./app/Audit.tsx")
-      : isGoogleAuditPage
-        ? () => import("./app/GoogleAudit.tsx")
-        : isKoduleheSeoPage
-          ? () => import("./app/KoduleheSeo.tsx")
-          : isGoogleSeoPage
-            ? () => import("./app/GoogleSeo.tsx")
-            : isKoduleheArendusPage
-              ? () => import("./app/KoduleheArendus.tsx")
-              : isAiTugiPage
-                ? () => import("./app/AiTugi.tsx")
-                : isSotsiaalmeediaPage
-                  ? () => import("./app/Sotsiaalmeedia.tsx")
-                  : isServicesPage
-                    ? () => import("./app/Services.tsx")
-                    : () => import("./app/App.tsx");
+// Lazy by default, so only the matched page's chunk is fetched — same per-page
+// code splitting the previous ternary chain produced.
+const pages = import.meta.glob<{ default: ComponentType<any> }>("./app/*.tsx");
+const loadPage = pages[`./app/${page}.tsx`] ?? pages[`./app/${notFoundPage}.tsx`];
 
 loadPage().then(({ default: Page }) => {
   createRoot(document.getElementById("root")!).render(

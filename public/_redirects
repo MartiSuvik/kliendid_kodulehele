@@ -3,8 +3,7 @@
 / /en/ 302 Country!=ee
 
 # Removed pages → /audit (the single lead-capture form). 301 so any bookmarks
-# and indexed links forward and pass ranking signal. These MUST precede the SPA
-# catch-alls below, otherwise /en/* and /* would swallow them first.
+# and indexed links forward and pass ranking signal.
 /contact             /audit      301
 /contact/*           /audit      301
 /konsultatsioon      /audit      301
@@ -12,8 +11,9 @@
 /en/contact/*        /en/audit   301
 /en/konsultatsioon   /en/audit   301
 
-# SPA catch-all for /en/* routes
-/en/* /index.html 200
-
-# Default SPA catch-all (Estonian)
-/* /index.html 200
+# NOTE: the SPA catch-alls (`/en/* /index.html 200` and `/* /index.html 200`)
+# are deliberately gone. Every real route is now prerendered to a physical
+# dist/<route>/index.html that Netlify serves directly, and anything unmatched
+# falls through to dist/404.html with a genuine HTTP 404. The catch-alls used to
+# answer 200 for every nonexistent URL — soft-404s carrying the homepage's
+# canonical, on unlimited URLs.

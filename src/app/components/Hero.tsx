@@ -203,25 +203,25 @@ export function Hero() {
     <section className="bg-white overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-6 lg:px-16 pt-8 pb-8 lg:pt-12 lg:pb-12">
         {/* Headline + lead form — stacked, form-first for paid traffic */}
-        <motion.div
-          className="max-w-[680px] mx-auto text-center"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        <div className="max-w-[680px] mx-auto text-center">
+          {/* The H1 is the category phrase, because that is what the page needs
+              to rank for. The emotional headline below still does the selling —
+              it is unchanged visually, just no longer the H1. */}
           <h1
+            className="font-['Poppins'] font-semibold uppercase text-[#1977f2] mb-4"
+            style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+          >
+            {m.hero_h1()}
+          </h1>
+
+          <p
             className="font-['Poppins'] text-black font-semibold text-[28px] lg:text-[38px] mb-7"
             style={{ lineHeight: "1.18", letterSpacing: "-0.02em" }}
           >
             {m.hero_headline()}
-          </h1>
+          </p>
 
-          <motion.div
-            className="max-w-[520px] mx-auto"
-            initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-          >
+          <div className="max-w-[520px] mx-auto">
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left">
                 <label htmlFor="hero-email" className="sr-only">
@@ -291,16 +291,11 @@ export function Hero() {
                 </p>
               </div>
             )}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
         {/* Video — directly under the form */}
-        <motion.div
-          className="w-full max-w-[820px] mx-auto mt-12 lg:mt-14"
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        <div className="w-full max-w-[820px] mx-auto mt-12 lg:mt-14">
           <div className="relative rounded-xl overflow-hidden bg-black aspect-video">
             {document.documentElement.lang === "en" ? (
               <LiteYouTube videoId={YT_VIDEO_ID} />
@@ -308,7 +303,7 @@ export function Hero() {
               <LiteCloudinaryVideo />
             )}
           </div>
-        </motion.div>
+        </div>
 
         {/* Trust badges 
         <div className="flex flex-wrap gap-3 mt-10">
@@ -331,12 +326,7 @@ export function Hero() {
         </div>*/}
 
         {/* Brands marquee */}
-        <motion.div
-          className="mt-10 lg:mt-12"
-          initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-        >
+        <div className="mt-10 lg:mt-12">
           <p
             className="font-['Inter'] text-[#707070] text-center mb-4"
             style={{ fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase" }}
@@ -367,7 +357,7 @@ export function Hero() {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

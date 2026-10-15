@@ -68,8 +68,8 @@
     <!-- Geosihtimine: Tallinn, Eesti (Balti turg) -->
     <meta name="geo.region" content="EE" />
     <meta name="geo.placename" content="Tallinn" />
-    <meta name="geo.position" content="59.4370;24.7536" />
-    <meta name="ICBM" content="59.4370, 24.7536" />
+    <meta name="geo.position" content="59.4332335;24.7609721" />
+    <meta name="ICBM" content="59.4332335, 24.7609721" />
     <meta name="theme-color" content="#2563EB" />
 
     <!-- Open Graph / Facebook — og:title, og:description, og:url and hreflang are set per-page by react-helmet-async -->
@@ -112,31 +112,14 @@
     alt="" /></noscript>
 
     <!-- Rakenduse juurelement -->
-    <!-- Visible to crawlers: hidden visually but present in HTML as primary H1 for SEO crawlers -->
-    <h1 style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Parim SEO/AI SEO Turundusagentuur Tallinn</h1>
     <div id="root"></div>
 
-  <!-- Varusisu robotitele, mis ei käivita JavaScripti -->
-  <noscript>
-    <div style="max-width:800px;margin:0 auto;padding:40px 20px;font-family:Inter,sans-serif;color:#111">
-      <h1>Parim SEO/AI SEO Turundusagentuur Tallinn</h1>
-      <p>Kliendid Kodulehele aitab teenusettevõtetel ja agentuuridel saada kliente prognoositavalt läbi kõrge konversiooniga veebilehtede, SEO ja automatiseerimissüsteemide. Asume Tallinnas.</p>
-      <h2>Mida me teeme</h2>
-      <p>Disainime, struktureerime ja optimeerime veebilehti, mis toovad agentuuridele, konsultantidele ja B2B ettevõtetele 5–15 kvalifitseeritud klienti kuus. Meie 3-sammuline raamistik: tululekkete diagnoos, konversiooniarhitektuuri ehitus, SEO ja automatiseerimise paigaldus.</p>
-      <h2>Tasuta tuluarhitektuuri audit</h2>
-      <p>Salvestame 3-min video ülevaate, mis näitab, kus teie veebileht tulu kaotab — täiesti tasuta. Alustamiseks broneerige strateegiakõne.</p>
-      <h2>Tõestatud tulemused Eesti ettevõtetele</h2>
-      <ul>
-        <li><strong>Rüki Gallery (rukigalerii.ee)</strong>: orgaaniline liiklus 2x, Google TOP 3 positsioonid</li>
-        <li><strong>Premium Watches (premiumkellad.ee)</strong>: SEO-põhine käive kasvas 3,4x</li>
-        <li><strong>Tark Pere (tarkpere.ee)</strong>: orgaaniline liiklus 2,8x, 300+ Google külastust kuus</li>
-      </ul>
-      <p>Ettevõte: EFFI AI SOLUTIONS OÜ</p>
-      <p><a href="https://kliendidkodulehele.ee">Külasta Kliendid Kodulehele</a></p>
-    </div>
-  </noscript>
+    <!-- ElevenLabs voice/chat agent — the custom element is inert until its
+         widget script (loaded in loadDeferred below) registers it. -->
+    <elevenlabs-convai agent-id="agent_9501kn042dwrfkxrpwa28qfc2bv6"></elevenlabs-convai>
 
-  <!-- Deferred third-party loader — ContentSquare + Silktide consent manager load
+
+  <!-- Deferred third-party loader — ContentSquare, Silktide consent manager and the ElevenLabs widget load
        on the first browser-idle window or the first user interaction, whichever
        comes first, so they stay off the critical render path. The Meta Pixel and
        Microsoft Clarity remain eager (in <head>) by design. -->
@@ -167,6 +150,13 @@
       sk.crossOrigin = "anonymous";
       sk.onload = initSilktide;
       document.head.appendChild(sk);
+
+      // ElevenLabs Conversational AI widget (upgrades <elevenlabs-convai> in <body>).
+      var el = document.createElement("script");
+      el.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
+      el.async = true;
+      el.type = "text/javascript";
+      document.body.appendChild(el);
     }
 
     function initSilktide() {

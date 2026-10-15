@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
+import { Footer } from "./components/Footer";
 import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
@@ -652,18 +654,18 @@ export default function GoogleSeo() {
         <html lang={isEnglish ? "en" : "et"} />
         <title>
           {isEnglish
-            ? "Google SEO for service businesses | Free SEO analysis"
-            : "Google SEO teenuseettevõttele | Tasuta SEO-analüüs"}
+            ? "Best Google SEO service in Tallinn | Kliendid Kodulehele - search engine optimisation, local SEO, technical SEO audit and keyword research. Looking for SEO near you? Free audit."
+            : "Parim Google SEO teenus Tallinnas | Kliendid Kodulehele - otsingumootori optimeerimine, kohalik SEO, tehniline SEO audit ja märksõnauuring. Otsid SEO teenust enda lähedal? Tasuta audit."}
         </title>
         <meta
           name="description"
           content={
             isEnglish
-              ? "Get visible on Google when clients search for your service. Get a free SEO analysis showing where you lose visibility and how to get more inquiries."
-              : "Tõuse Google'is nähtavale, kui klient sinu teenust otsib. Saa tasuta SEO-analüüs, mis näitab, kus sa nähtavust kaotad ja kuidas rohkem päringuid saada."
+              ? "Google SEO service in Tallinn. Technical optimisation, keyword research, content and local SEO. We measure results in inquiries, not rankings. Free audit."
+              : "Google SEO teenus Tallinnas. Tehniline optimeerimine, märksõnauuring, sisu ja kohalik SEO. Mõõdame tulemust päringute, mitte positsioonide järgi. Tasuta audit."
           }
         />
-        <link rel="canonical" href={isEnglish ? "https://kliendidkodulehele.ee/en/teenused/google-seo" : CANONICAL} />
+        {...seoLinks("/teenused/google-seo", isEnglish)}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
@@ -716,13 +718,21 @@ export default function GoogleSeo() {
         <div className={`${container} grid items-center gap-14 pb-20 pt-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16 lg:pb-28 lg:pt-24`}>
           <div>
             <Reveal delay={0.05}>
-              <h1 className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
+              {/* Category phrase as the H1; the headline below still sells,
+                  it is just no longer the H1. */}
+              <h1
+                className="font-['Poppins'] font-semibold uppercase text-[#1977f2]"
+                style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+              >
+                {isEnglish ? "Google SEO service in Tallinn" : "Google SEO teenus Tallinnas"}
+              </h1>
+              <p className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
                 {isEnglish ? (
                   <>Be visible on Google when a client is <span className="text-[#1977f2]">looking <span className="relative inline-block">for you.<SketchUnderline delay={0.45} /></span></span></>
                 ) : (
                   <>Ole Google'is nähtav, kui klient <span className="text-[#1977f2]">sind <span className="relative inline-block">otsib.<SketchUnderline delay={0.45} /></span></span></>
                 )}
-              </h1>
+              </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p className={`mt-6 max-w-[540px] ${body}`} style={{ fontSize: "18px", lineHeight: "1.65" }}>
@@ -1185,6 +1195,11 @@ export default function GoogleSeo() {
           </div>
         </div>
       </section>
+
+      {/* Shared footer: NAP matching the Google Business Profile, plus links to
+          every service page. These pages previously rendered no footer at all,
+          so they carried no address and no outbound internal links. */}
+      <Footer />
 
       {/* ================================================================== */}
       {/* Mobile sticky CTA                                                   */}

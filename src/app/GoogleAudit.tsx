@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
 import { motion } from "motion/react";
 import { ArrowRight, Check } from "lucide-react";
 import { trackLead } from "../lib/analytics";
@@ -206,11 +207,10 @@ export default function GoogleAudit() {
       <Helmet>
         <title>{copy.title}</title>
         <meta name="description" content={copy.description} />
-        <link rel="canonical" href={isEnglish ? "https://kliendidkodulehele.ee/en/google-audit" : "https://kliendidkodulehele.ee/google-audit"} />
+        {...seoLinks("/google-audit", isEnglish)}
         <meta property="og:title" content={copy.title} />
         <meta property="og:description" content={copy.description} />
-        <link rel="alternate" hrefLang="et" href="https://kliendidkodulehele.ee/google-audit" />
-        <link rel="alternate" hrefLang="en" href="https://kliendidkodulehele.ee/en/google-audit" />
+
       </Helmet>
 
       <Navigation />

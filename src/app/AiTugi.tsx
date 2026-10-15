@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
+import { Footer } from "./components/Footer";
 import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
@@ -650,18 +652,18 @@ export default function AiTugi() {
         <html lang={isEnglish ? "en" : "et"} />
         <title>
           {isEnglish
-            ? "AI customer support & automation | Free AI demo"
-            : "AI klienditugi ja automatiseerimine | Tasuta AI-demo"}
+            ? "Best AI customer support and automation in Tallinn | Kliendid Kodulehele - chatbot, voice agent, CRM integration and sales automation. Looking for an AI solution near you? Free demo."
+            : "Parim AI klienditugi ja automatiseerimine Tallinnas | Kliendid Kodulehele - vestlusrobot, kõneadministraator, CRM-i integratsioon ja müügiautomaatika. Otsid AI lahendust enda lähedal? Tasuta demo."}
         </title>
         <meta
           name="description"
           content={
             isEnglish
-              ? "AI that answers your clients 24/7, captures contacts, and sends them to your CRM. No inquiry goes unanswered. Book a free AI demo."
-              : "AI, mis vastab su klientidele 24/7, kogub kontaktid ja saadab need CRM-i. Ükski päring ei jää enam vastuseta. Broneeri tasuta AI-demo."
+              ? "AI customer support in Tallinn: a chatbot and voice agent that answer 24/7, capture contacts and send them to your CRM. No inquiry goes unanswered. Free demo."
+              : "AI klienditugi Tallinnas: vestlusrobot ja kõneadministraator, mis vastavad 24/7, koguvad kontaktid ja saadavad need CRM-i. Ükski päring ei jää vastuseta. Tasuta demo."
           }
         />
-        <link rel="canonical" href={isEnglish ? "https://kliendidkodulehele.ee/en/teenused/ai-tugi" : CANONICAL} />
+        {...seoLinks("/teenused/ai-tugi", isEnglish)}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
@@ -714,13 +716,21 @@ export default function AiTugi() {
         <div className={`${container} grid items-center gap-14 pb-20 pt-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16 lg:pb-28 lg:pt-24`}>
           <div>
             <Reveal delay={0.05}>
-              <h1 className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
+              {/* Category phrase as the H1; the headline below still sells,
+                  it is just no longer the H1. */}
+              <h1
+                className="font-['Poppins'] font-semibold uppercase text-[#1977f2]"
+                style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+              >
+                {isEnglish ? "AI customer support and automation in Tallinn" : "AI klienditugi ja automatiseerimine Tallinnas"}
+              </h1>
+              <p className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
                 {isEnglish ? (
                   <>No inquiry goes <span className="text-[#1977f2]"><span className="relative inline-block">unanswered.<SketchUnderline delay={0.45} /></span></span></>
                 ) : (
                   <>Ükski päring ei jää enam <span className="text-[#1977f2]"><span className="relative inline-block">vastuseta.<SketchUnderline delay={0.45} /></span></span></>
                 )}
-              </h1>
+              </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p className={`mt-6 max-w-[540px] ${body}`} style={{ fontSize: "18px", lineHeight: "1.65" }}>
@@ -1183,6 +1193,11 @@ export default function AiTugi() {
           </div>
         </div>
       </section>
+
+      {/* Shared footer: NAP matching the Google Business Profile, plus links to
+          every service page. These pages previously rendered no footer at all,
+          so they carried no address and no outbound internal links. */}
+      <Footer />
 
       {/* ================================================================== */}
       {/* Mobile sticky CTA                                                   */}

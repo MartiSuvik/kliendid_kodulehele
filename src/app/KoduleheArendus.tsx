@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
+import { Footer } from "./components/Footer";
 import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
@@ -652,18 +654,18 @@ export default function KoduleheArendus() {
         <html lang={isEnglish ? "en" : "et"} />
         <title>
           {isEnglish
-            ? "Website development from 900€ | Free website sample"
-            : "Kodulehe arendus alates 900€ | Tasuta uue lehe näidis"}
+            ? "Best website development in Tallinn | Kliendid Kodulehele - fast websites, online shops, landing pages and web design. Looking for a website builder near you? Free consultation."
+            : "Parim kodulehe tegemine ja veebiarendus Tallinnas | Kliendid Kodulehele - kiired kodulehed, e-poed, maandumislehed ja veebidisain. Otsid kodulehe tegijat enda lähedal? Tasuta konsultatsioon."}
         </title>
         <meta
           name="description"
           content={
             isEnglish
-              ? "A modern, fast, mobile-friendly website built to sell. Ready in 7 days. Get a free sample before you decide."
-              : "Kaasaegne, kiire ja mobiilisõbralik koduleht, mis on ehitatud müügile. Valmis 7 päevaga. Saa tasuta näidis enne otsust."
+              ? "Custom website development in Tallinn. Fast loading, mobile-friendly, SEO built in from the start. See the portfolio and ask for a free consultation."
+              : "Kohandatud kodulehe arendus Tallinnas. Kiire laadimine, mobiilisõbralik, SEO algusest peale sisse ehitatud. Vaata portfoolio ja küsi tasuta konsultatsiooni."
           }
         />
-        <link rel="canonical" href={isEnglish ? "https://kliendidkodulehele.ee/en/teenused/kodulehe-arendus" : CANONICAL} />
+        {...seoLinks("/teenused/kodulehe-arendus", isEnglish)}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
@@ -716,13 +718,21 @@ export default function KoduleheArendus() {
         <div className={`${container} grid items-center gap-14 pb-20 pt-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16 lg:pb-28 lg:pt-24`}>
           <div>
             <Reveal delay={0.05}>
-              <h1 className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
+              {/* Category phrase as the H1; the headline below still sells,
+                  it is just no longer the H1. */}
+              <h1
+                className="font-['Poppins'] font-semibold uppercase text-[#1977f2]"
+                style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+              >
+                {isEnglish ? "Website development in Tallinn" : "Kodulehe tegemine ja veebiarendus Tallinnas"}
+              </h1>
+              <p className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
                 {isEnglish ? (
                   <>A website that looks great and <span className="text-[#1977f2]">works <span className="relative inline-block">fast.<SketchUnderline delay={0.45} /></span></span></>
                 ) : (
                   <>Koduleht, mis näeb hea välja ja <span className="text-[#1977f2]">töötab <span className="relative inline-block">kiiresti.<SketchUnderline delay={0.45} /></span></span></>
                 )}
-              </h1>
+              </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p className={`mt-6 max-w-[540px] ${body}`} style={{ fontSize: "18px", lineHeight: "1.65" }}>
@@ -1185,6 +1195,11 @@ export default function KoduleheArendus() {
           </div>
         </div>
       </section>
+
+      {/* Shared footer: NAP matching the Google Business Profile, plus links to
+          every service page. These pages previously rendered no footer at all,
+          so they carried no address and no outbound internal links. */}
+      <Footer />
 
       {/* ================================================================== */}
       {/* Mobile sticky CTA                                                   */}

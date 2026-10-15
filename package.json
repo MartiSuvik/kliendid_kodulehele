@@ -70,6 +70,7 @@
     "@tailwindcss/vite": "4.1.12",
     "@types/canvas-confetti": "^1.9.0",
     "@vitejs/plugin-react": "4.7.0",
+    "puppeteer": "^25.10.0",
     "tailwindcss": "4.1.12",
     "vite": "6.3.5"
   },

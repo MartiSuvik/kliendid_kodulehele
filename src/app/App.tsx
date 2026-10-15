@@ -10,10 +10,41 @@ import { Footer } from "./components/Footer";
 import { useScrollProgress } from "./components/hooks/useAnimations";
 import * as m from "../paraglide/messages.js";
 import { TestimonialsSpotlight } from "./components/TestimonialsSpotlight";
+import { ValueProposition } from "./components/ValueProposition";
 import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import { useRef } from "react";
+import { motion } from "motion/react";
 import { cld } from "../lib/cloudinary";
+import {
+  ADDRESS_COUNTRY,
+  ADDRESS_LOCALITY,
+  ADDRESS_POSTAL_CODE,
+  ADDRESS_REGION,
+  ADDRESS_STREET,
+  BUSINESS_LEGAL_NAME,
+  BUSINESS_NAME,
+  CONTACT_EMAIL,
+  CONTACT_PHONE_DISPLAY,
+  GBP_MAPS_URL,
+  GEO_LAT,
+  GEO_LNG,
+  INFOREGISTER_URL,
+} from "./data/contact";
 
+/**
+ * Scroll reveal driven by CSS, not JavaScript.
+ *
+ * Every JS approach failed on this particular section: IntersectionObserver
+ * (motion's whileInView, the project's useInView, and a hand-rolled observer)
+ * reports intersectionRatio 0 forever here even though sibling sections observe
+ * fine and the ancestor chain is clean, and a rAF poll reading
+ * getBoundingClientRect never satisfied its condition either. Since a reveal
+ * that never fires leaves the content invisible to visitors and serialises at
+ * opacity 0 for crawlers, this uses a CSS scroll-driven animation instead.
+ *
+ * The content is visible by default and the animation is pure enhancement, so
+ * browsers without `animation-timeline` (and the prerenderer) simply show it.
+ */
 function Reveal({
   children,
   className = "",
@@ -24,12 +55,7 @@ function Reveal({
   delay?: number;
 }) {
   return (
-    <div
-      className={className}
-      style={{
-        animation: `revealUp 0.7s ease-out ${delay}s both`,
-      }}
-    >
+    <div className={`reveal-on-scroll ${className}`} style={{ animationDelay: `${delay}s` }}>
       {children}
     </div>
   );
@@ -46,20 +72,43 @@ export default function App() {
   const isEnglish = document.documentElement.lang === "en";
   const canonical = isEnglish ? "https://kliendidkodulehele.ee/en/" : "https://kliendidkodulehele.ee/";
 
+  // Stable @id so WebSite, Service and future Person nodes can point at this
+  // one entity rather than each declaring an unlinked organisation of its own.
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": ["ProfessionalService", "LocalBusiness"],
-    "name": "Kliendid Kodulehele",
-    "legalName": "EFFI AI SOLUTIONS OÜ",
+    "@id": "https://kliendidkodulehele.ee/#organization",
+    "name": BUSINESS_NAME,
+    "legalName": BUSINESS_LEGAL_NAME,
     "url": "https://kliendidkodulehele.ee",
     "logo": "https://kliendidkodulehele.ee/logo.svg",
     "image": "https://kliendidkodulehele.ee/logo.svg",
-    "description": "SEO, veebidisain ja AI-lahendused Tallinnas. Aitame teenusettevõtetel saada kliente prognoositavalt.",
-    "areaServed": {
-      "@type": "Country",
-      "name": "Estonia"
-    },
+    "description": isEnglish
+      ? "Marketing agency in Tallinn. Google SEO, local SEO, AI search optimisation (GEO) and website development."
+      : "Turundusagentuur Tallinnas. Google SEO, kohalik SEO, AI otsingu optimeerimine (GEO) ja kodulehe arendus.",
+    "telephone": CONTACT_PHONE_DISPLAY,
+    "email": CONTACT_EMAIL,
     "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": ADDRESS_STREET,
+      "addressLocality": ADDRESS_LOCALITY,
+      "postalCode": ADDRESS_POSTAL_CODE,
+      "addressRegion": ADDRESS_REGION,
+      "addressCountry": ADDRESS_COUNTRY,
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": GEO_LAT,
+      "longitude": GEO_LNG,
+    },
+    "hasMap": GBP_MAPS_URL,
+    // City first: "Country: Estonia" alone told Google nothing about Tallinn.
+    "areaServed": [
+      { "@type": "City", "name": ADDRESS_LOCALITY },
+      { "@type": "AdministrativeArea", "name": ADDRESS_REGION },
+      { "@type": "Country", "name": "Estonia" },
+    ],
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
@@ -67,14 +116,21 @@ export default function App() {
         "opens": "09:00",
         "closes": "18:00"
       }
-    ]
+    ],
+    // Third-party corroboration of the same entity. Add LinkedIn / Facebook /
+    // Instagram profile URLs here as they go live — AI models and Google both
+    // weight these above anything the site says about itself.
+    "sameAs": [GBP_MAPS_URL, INFOREGISTER_URL],
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://kliendidkodulehele.ee/#website",
     "url": "https://kliendidkodulehele.ee",
-    "name": "Kliendid Kodulehele"
+    "name": BUSINESS_NAME,
+    "inLanguage": isEnglish ? "en" : "et",
+    "publisher": { "@id": "https://kliendidkodulehele.ee/#organization" },
   };
 
 // e_trim crops the white padding around each wordmark so logos read at a usable size.
@@ -154,13 +210,18 @@ function ResultsCarousel() {
           </div>
         </div>
 
+        {/* One Reveal around the whole track, not one per card: the cards live
+            in a horizontal scroller, and cards parked off-screen to the right
+            never intersect the viewport, so per-card reveals left them at
+            opacity 0 permanently. */}
+        <Reveal delay={0.1}>
         <div
           ref={trackRef}
           className="mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden"
           style={{ scrollbarWidth: "none" }}
         >
-          {results.map((r, i) => (
-            <Reveal key={r.company} delay={(i % 3) * 0.06} className="snap-start shrink-0">
+          {results.map((r) => (
+            <div key={r.company} className="snap-start shrink-0">
               <article data-card className="flex w-[280px] flex-col rounded-2xl border border-[#e7edf4] bg-white p-6 sm:w-[332px]">
                 <div className="flex h-9 items-center">
                   {r.logo ? (
@@ -199,9 +260,10 @@ function ResultsCarousel() {
                   <Sparkline />
                 </div>
               </article>
-            </Reveal>
+            </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -231,6 +293,7 @@ function ResultsCarousel() {
       />
       <Navigation />
       <Hero />
+      <ValueProposition />
       <TestimonialsSpotlight />
       <ResultsCarousel />
       <About />

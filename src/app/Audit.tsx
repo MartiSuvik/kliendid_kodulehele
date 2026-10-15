@@ -1,6 +1,7 @@
 import { useState } from "react";
 import confetti from "canvas-confetti";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
 import { Navigation } from "./components/Navigation";
 import { Footer } from "./components/Footer";
 import * as m from "../paraglide/messages.js";
@@ -120,19 +121,25 @@ export default function Audit() {
       <Helmet>
         <title>{m.audit_title()}</title>
         <meta name="description" content={m.audit_description()} />
-        <link rel="canonical" href={document.documentElement.lang === "en" ? "https://kliendidkodulehele.ee/en/audit" : "https://kliendidkodulehele.ee/audit"} />
+        {...seoLinks("/audit", document.documentElement.lang === "en")}
         <meta property="og:title" content={m.audit_title()} />
         <meta property="og:description" content={m.audit_description()} />
-        <link rel="alternate" hrefLang="et" href="https://kliendidkodulehele.ee/audit" />
-        <link rel="alternate" hrefLang="en" href="https://kliendidkodulehele.ee/en/audit" />
+
       </Helmet>
       <Navigation />
 
       <main className="max-w-[900px] mx-auto px-6 lg:px-12 pt-8 pb-16">
         <section className="max-w-[760px]">
-          <h1 className="font-['Poppins'] font-semibold text-black mb-4" style={{ fontSize: "42px", lineHeight: "1.1" }}>
-            {m.contact_heading()}
+          {/* Keyword H1; the display heading below keeps the visual weight. */}
+          <h1
+            className="font-['Poppins'] font-semibold uppercase text-[#1977f2] mb-3"
+            style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+          >
+            {m.audit_h1()}
           </h1>
+          <p className="font-['Poppins'] font-semibold text-black mb-4" style={{ fontSize: "42px", lineHeight: "1.1" }}>
+            {m.contact_heading()}
+          </p>
           <p className="font-['Poppins'] text-black mb-8" style={{ fontSize: "18px", lineHeight: "1.5" }}>
             {m.contact_subheading_1()}
             <br />

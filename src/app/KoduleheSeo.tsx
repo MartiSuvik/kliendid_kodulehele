@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { seoLinks } from "./components/seo";
+import { Footer } from "./components/Footer";
 import { motion } from "motion/react";
 import confetti from "canvas-confetti";
 import { ArrowRight, Check, ShieldCheck, ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
@@ -688,18 +690,18 @@ export default function KoduleheSeo() {
         <html lang={isEnglish ? "en" : "et"} />
         <title>
           {isEnglish
-            ? "Website creation from 900€ | Free sample of your new site"
-            : "Kodulehe tegemine alates 900€ | Tasuta uue lehe näidis"}
+            ? "Website creation with SEO in Tallinn | Kliendid Kodulehele - a fast website built for Google from day one. Looking for a website builder near you? Free audit."
+            : "Kodulehe tegemine koos SEO-ga Tallinnas | Kliendid Kodulehele - kiire koduleht, mis on algusest peale Google'ile ehitatud. Otsid kodulehe tegijat enda lähedal? Tasuta audit."}
         </title>
         <meta
           name="description"
           content={
             isEnglish
-              ? "A website that helps bring more inquiries and new clients. Get a free sample of your new site. Websites from 900€, ready in 7 days."
-              : "Koduleht, mis aitab tuua rohkem päringuid ja uusi kliente. Saa tasuta uue lehe näidis. Koduleht alates 900€, valmis 7 päevaga."
+              ? "A website and SEO in one project. We build a fast, mobile-friendly site that Google can read from day one. Tallinn and all of Estonia. From 900€."
+              : "Koduleht ja SEO ühes projektis. Ehitame kiire, mobiilisõbraliku lehe, mis on Google'ile loetav esimesest päevast. Tallinn ja kogu Eesti. Alates 900€."
           }
         />
-        <link rel="canonical" href={isEnglish ? "https://kliendidkodulehele.ee/en/kodulehe-tegemine-seo" : CANONICAL} />
+        {...seoLinks("/kodulehe-tegemine-seo", isEnglish)}
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
@@ -752,13 +754,21 @@ export default function KoduleheSeo() {
         <div className={`${container} grid items-center gap-14 pb-20 pt-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-16 lg:pb-28 lg:pt-24`}>
           <div>
             <Reveal delay={0.05}>
-              <h1 className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
+              {/* Category phrase as the H1; the headline below still sells,
+                  it is just no longer the H1. */}
+              <h1
+                className="font-['Poppins'] font-semibold uppercase text-[#1977f2]"
+                style={{ fontSize: "12px", letterSpacing: "0.14em" }}
+              >
+                {isEnglish ? "Website creation with SEO in Tallinn" : "Kodulehe tegemine koos SEO-ga Tallinnas"}
+              </h1>
+              <p className={`mt-5 ${heading}`} style={{ fontSize: "clamp(34px, 5vw, 54px)", lineHeight: "1.1" }}>
                 {isEnglish ? (
                   <>A website that grows <span className="text-[#1977f2]">your <span className="relative inline-block">revenue.<SketchUnderline delay={0.45} /></span></span></>
                 ) : (
                   <>Koduleht, mis kasvatab <span className="text-[#1977f2]">su <span className="relative inline-block">käivet.<SketchUnderline delay={0.45} /></span></span></>
                 )}
-              </h1>
+              </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p className={`mt-6 max-w-[540px] ${body}`} style={{ fontSize: "18px", lineHeight: "1.65" }}>
@@ -1221,6 +1231,11 @@ export default function KoduleheSeo() {
           </div>
         </div>
       </section>
+
+      {/* Shared footer: NAP matching the Google Business Profile, plus links to
+          every service page. These pages previously rendered no footer at all,
+          so they carried no address and no outbound internal links. */}
+      <Footer />
 
       {/* ================================================================== */}
       {/* Mobile sticky CTA                                                   */}

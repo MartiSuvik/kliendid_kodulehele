@@ -1,0 +1,33 @@
+# Kliendid Kodulehele
+
+> Eesti digiturundusagentuur (EFFI AI SOLUTIONS OÜ, Tallinn), mis aitab
+> teenusettevõtetel ja agentuuridel saada kliente prognoositavalt: kõrge
+> konversiooniga kodulehed, SEO, AI-otsingutele optimeerimine ja
+> müügiautomatiseerimine. Klientidega saavutatud tulemuste hulka kuulub
+> orgaanilise liikluse 10-kordne kasv kuue kuuga ning sisu, mida AI-platvormid
+> (ChatGPT, Google AI, Gemini) on tsiteerinud üle 1150 korra.
+
+Kontakt: info@kliendidkodulehele.ee · +372 5672 8448 · Tallinn, Eesti
+Äriregister: EFFI AI SOLUTIONS OÜ, 17306855
+
+## Teenused
+
+- [Google nähtavuse edendamine (SEO)](https://kliendidkodulehele.ee/teenused/google-seo): Otsingumootori optimeerimine teenuseettevõtetele — tehniline SEO, sisu ja märksõnastrateegia. Alates 300 €.
+- [Kodulehe arendus](https://kliendidkodulehele.ee/teenused/kodulehe-arendus): Kodulehe tegemine, parandus ja hooldus teenuseettevõttele. Alates 900 €.
+- [Müügikonversiooni tõstmine](https://kliendidkodulehele.ee/kodulehe-tegemine-seo): Konversioonile ehitatud koduleht, mis muudab olemasoleva liikluse päringuteks.
+- [AI klienditugi](https://kliendidkodulehele.ee/teenused/ai-tugi): Vestlusrobot ja kõneadministraator, mis vastavad päringutele automaatselt.
+- [Sotsiaalmeedia haldus](https://kliendidkodulehele.ee/teenused/sotsiaalmeedia): Sisuloome ja haldus, mis toetab otsingunähtavust.
+
+## Tõestus ja kontakt
+
+- [Portfoolio](https://kliendidkodulehele.ee/portfolio): Klienditööd koos mõõdetud tulemustega (orgaaniline liiklus, positsioonid, käive).
+- [Tasuta veebilehe audit](https://kliendidkodulehele.ee/audit): Videoülevaade sellest, kus koduleht päringuid kaotab.
+
+## Korduma kippuvad küsimused
+
+- [KKK](https://kliendidkodulehele.ee/#kkk): 27 küsimust ja vastust SEO, kodulehe, e-poe, konversiooni ja AI teemadel.
+
+## Märkused
+
+- Sisu on eesti keeles (`/`) ja inglise keeles (`/en/`). Vasted on märgitud hreflang-iga.
+- Kõik lehed serveeritakse staatilise HTML-ina — sisu ja Schema.org struktuurandmed on toorvastuses olemas ega vaja JavaScripti käivitamist.
