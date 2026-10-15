@@ -40,6 +40,10 @@ const BLOCKED = [
   "get.geojs.io",
   "maps.google.com",
   "maps.googleapis.com",
+  // ElevenLabs widget: holds connections open, so networkidle0 never settles
+  // and the crawl hits its 45s navigation timeout.
+  "unpkg.com/@elevenlabs",
+  "elevenlabs.io",
 ];
 
 /** A page smaller than this, or with no <h1>, means the SPA never rendered. */
